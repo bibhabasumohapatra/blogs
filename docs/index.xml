@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Bibhabasu&#39;s Blogs</title>
+<link>https://bibhabasumohapatra.github.io/</link>
+<atom:link href="https://bibhabasumohapatra.github.io/index.xml" rel="self" type="application/rss+xml"/>
+<description>Blog page of Bibhabasu Mohapatra.</description>
+<generator>quarto-1.6.33</generator>
+<lastBuildDate>Mon, 15 Apr 2024 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>Linear Regression from Scratch</title>
+  <link>https://bibhabasumohapatra.github.io/posts/linear-regression-from-scratch.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="chapter-1" class="level1">
+<h1>Chapter 1</h1>
+<section id="example-polynomial-curve-fitting" class="level3">
+<h3 class="anchored" data-anchor-id="example-polynomial-curve-fitting">1.1. Example: Polynomial Curve Fitting</h3>
+<div id="cell-3" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch</span></code></pre></div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">x_train <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.linspace(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span>)</span>
+<span id="cb2-2">y_train <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.sin(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.14</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>x_train) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> torch.normal(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.2</span>,x_train.shape,) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## added noise as per the book</span></span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">### testing data</span></span>
+<span id="cb2-5">x_test <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.linspace(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">200</span>)</span>
+<span id="cb2-6">y_test <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.sin(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.14</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>x_test) </span></code></pre></div>
+</div>
+</section>
+<section id="plot-training-data" class="level2">
+<h2 class="anchored" data-anchor-id="plot-training-data">plot training data</h2>
+<div id="cell-6" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span>
+<span id="cb3-2">plt.scatter(x_train, y_train)</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="fit-the-linear-model-on-training-data" class="level2">
+<h2 class="anchored" data-anchor-id="fit-the-linear-model-on-training-data">Fit the Linear model on Training data</h2>
+<p>To solve for the optimal weight matrix ( W ), given the expression ( (XW - Y)^T (XW - Y) ), we can proceed by first expanding the expression and then minimizing it with respect to ( W ).</p>
+<section id="step-1-expand-the-expression" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-expand-the-expression">Step 1: Expand the expression</h3>
+<p>Given: <img src="https://latex.codecogs.com/png.latex?%0AL(W)%20=%20(XW%20-%20Y)%5ET%20(XW%20-%20Y)%0A"></p>
+<p>Expanding this: <img src="https://latex.codecogs.com/png.latex?%0AL(W)%20=%20(XW)%5ET(XW)%20-%20(XW)%5ET%20Y%20-%20Y%5ET%20(XW)%20+%20Y%5ET%20Y%0A"></p>
+<p>Simplifying further: <img src="https://latex.codecogs.com/png.latex?%0AL(W)%20=%20W%5ET%20X%5ET%20XW%20-%20W%5ET%20X%5ET%20Y%20-%20Y%5ET%20XW%20+%20Y%5ET%20Y%0A"></p>
+<p>Since ( W^T X^T Y ) and ( Y^T XW ) are scalars, they are equal. Therefore: <img src="https://latex.codecogs.com/png.latex?%0AL(W)%20=%20W%5ET%20X%5ET%20XW%20-%202W%5ET%20X%5ET%20Y%20+%20Y%5ET%20Y%0A"></p>
+</section>
+<section id="step-2-minimize-the-expression-with-respect-to-w" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-minimize-the-expression-with-respect-to-w">Step 2: Minimize the expression with respect to ( W )</h3>
+<p>To find the optimal ( W ), take the derivative of ( L(W) ) with respect to ( W ) and set it to zero: <img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7B%5Cpartial%20L(W)%7D%7B%5Cpartial%20W%7D%20=%202X%5ET%20XW%20-%202X%5ET%20Y%20=%200%0A"></p>
+<p>Simplifying: <img src="https://latex.codecogs.com/png.latex?%0AX%5ET%20XW%20=%20X%5ET%20Y%0A"></p>
+<p>Finally, solve for ( W ): <img src="https://latex.codecogs.com/png.latex?%0AW%20=%20(X%5ET%20X)%5E%7B-1%7D%20X%5ET%20Y%0A"></p>
+</section>
+<section id="final-answer" class="level3">
+<h3 class="anchored" data-anchor-id="final-answer">Final Answer</h3>
+<p>The optimal weight matrix ( W ) is given by: <img src="https://latex.codecogs.com/png.latex?%0A%5Cboxed%7BW%20=%20(X%5ET%20X)%5E%7B-1%7D%20X%5ET%20Y%7D%0A"></p>
+<p>This result is commonly known as the <strong>Normal Equation</strong> in linear regression.</p>
+<div id="cell-9" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">powers <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.arange(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>()</span>
+<span id="cb4-2">x_poly <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_train.unsqueeze(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">pow</span>(powers) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## NxM</span></span>
+<span id="cb4-3">w <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.linalg.pinv(x_poly) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span> y_train.view(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## MxN * Nx1 == Mx1</span></span></code></pre></div>
+</div>
+<div id="cell-10" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">w.shape, x_test.shape</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>(torch.Size([5, 1]), torch.Size([200]))</code></pre>
+</div>
+</div>
+<div id="cell-11" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">x_poly_test <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_test.unsqueeze(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">pow</span>(powers)</span>
+<span id="cb7-2">y_pred <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_poly_test <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span> w</span></code></pre></div>
+</div>
+<div id="cell-12" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> plt</span>
+<span id="cb8-2">plt.scatter(x_train, y_train, facecolor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span>, edgecolor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"b"</span>, s<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"training data"</span>)</span>
+<span id="cb8-3">plt.plot(x_test, y_test, c<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"g"</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$\sin(2\pi x)$"</span>)</span>
+<span id="cb8-4">plt.legend()</span>
+<span id="cb8-5">plt.show()</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-13" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i, degree <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">enumerate</span>([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>]):</span>
+<span id="cb9-2">    plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb9-3">    powers <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.arange(degree).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>()</span>
+<span id="cb9-4">    x_poly <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_train.unsqueeze(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">pow</span>(powers) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## NxM</span></span>
+<span id="cb9-5">    w <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.linalg.pinv(x_poly) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span> y_train.view(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## MxN * Nx1 == Mx1</span></span>
+<span id="cb9-6">    x_poly_test <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_test.unsqueeze(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">pow</span>(powers)</span>
+<span id="cb9-7">    y_pred <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_poly_test <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span> w    </span>
+<span id="cb9-8"></span>
+<span id="cb9-9">    plt.scatter(x_train, y_train, facecolor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span>, edgecolor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"b"</span>, s<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"training data"</span>)</span>
+<span id="cb9-10">    plt.plot(x_test, y_test, c<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"g"</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$\sin(2\pi x)$"</span>)</span>
+<span id="cb9-11">    plt.plot(x_test, y_pred, c<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"r"</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"fitting"</span>)</span>
+<span id="cb9-12">    plt.ylim(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>)</span>
+<span id="cb9-13">    plt.annotate(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"M=</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">format</span>(degree), xy<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.15</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="example-polynomial-curve-fitting-with-regularization" class="level2">
+<h2 class="anchored" data-anchor-id="example-polynomial-curve-fitting-with-regularization">1.1. Example: Polynomial Curve Fitting with Regularization</h2>
+<p>One technique that is often used to control the over-fitting phenomenon in such cases is that of regularization, which involves adding a penalty term to the error function in order to discourage the coefficients from reaching large values. The simplest such penalty term takes the form of a sum of squares of all of the coefficients, leading to a modified error function of the form.</p>
+<p>Techniques such as this are known in the statistics literature as shrinkage methods because they reduce the value of the coefficients. The particular case of a quadratic regularizer is called ridge regression (Hoerl and Kennard, 1970). In the context of neural networks, this approach is known as weight decay</p>
+<p>To solve for the optimal weight matrix ( W ) given the objective function ( (XW - Y)^T (XW - Y) + W^T W ), follow these steps:</p>
+<section id="objective-function" class="level3">
+<h3 class="anchored" data-anchor-id="objective-function">Objective Function</h3>
+<p>The objective function is: <img src="https://latex.codecogs.com/png.latex?%0AL(W)%20=%20(XW%20-%20Y)%5ET%20(XW%20-%20Y)%20+%20W%5ET%20W%0A"></p>
+</section>
+<section id="step-1-expand-the-expression-1" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-expand-the-expression-1">Step 1: Expand the Expression</h3>
+<p>Expanding ( (XW - Y)^T (XW - Y) ): <img src="https://latex.codecogs.com/png.latex?%0A(XW%20-%20Y)%5ET%20(XW%20-%20Y)%20=%20(XW)%5ET%20XW%20-%20(XW)%5ET%20Y%20-%20Y%5ET%20XW%20+%20Y%5ET%20Y%0A"></p>
+<p>Since ( (XW)^T Y ) and ( Y^T XW ) are scalars and equal, this simplifies to: <img src="https://latex.codecogs.com/png.latex?%0A(XW%20-%20Y)%5ET%20(XW%20-%20Y)%20=%20W%5ET%20X%5ET%20XW%20-%202W%5ET%20X%5ET%20Y%20+%20Y%5ET%20Y%0A"></p>
+<p>Adding ( W^T W ): <img src="https://latex.codecogs.com/png.latex?%0AL(W)%20=%20W%5ET%20X%5ET%20XW%20-%202W%5ET%20X%5ET%20Y%20+%20Y%5ET%20Y%20+%20W%5ET%20W%0A"></p>
+<p>Combining like terms: <img src="https://latex.codecogs.com/png.latex?%0AL(W)%20=%20W%5ET%20(X%5ET%20X%20+%20I)%20W%20-%202W%5ET%20X%5ET%20Y%20+%20Y%5ET%20Y%0A"></p>
+</section>
+<section id="step-2-minimize-the-expression-with-respect-to-w-1" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-minimize-the-expression-with-respect-to-w-1">Step 2: Minimize the Expression with Respect to ( W )</h3>
+<p>Take the derivative of ( L(W) ) with respect to ( W ) and set it to zero: <img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7B%5Cpartial%20L(W)%7D%7B%5Cpartial%20W%7D%20=%202(X%5ET%20X%20+%20I)W%20-%202X%5ET%20Y%20=%200%0A"></p>
+<p>Solving for ( W ): <img src="https://latex.codecogs.com/png.latex?%0A(X%5ET%20X%20+%20I)W%20=%20X%5ET%20Y%0A"> <img src="https://latex.codecogs.com/png.latex?%0AW%20=%20(X%5ET%20X%20+%20I)%5E%7B-1%7D%20X%5ET%20Y%0A"></p>
+</section>
+<section id="final-answer-1" class="level3">
+<h3 class="anchored" data-anchor-id="final-answer-1">Final Answer</h3>
+<p>The optimal weight matrix ( W ) is: <img src="https://latex.codecogs.com/png.latex?%0A%5Cboxed%7BW%20=%20(X%5ET%20X%20+%20I)%5E%7B-1%7D%20X%5ET%20Y%7D%0A"></p>
+<p>This result includes a regularization term ( W^T W ), which is common in <strong>Ridge Regression</strong> or <strong>Tikhonov Regularization</strong>.</p>
+<div id="cell-16" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i, degree <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">enumerate</span>([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>]):</span>
+<span id="cb10-2">    plt.subplot(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, i <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb10-3">    powers <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.arange(degree).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>()</span>
+<span id="cb10-4">    x_poly <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_train.unsqueeze(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">pow</span>(powers) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## NxM</span></span>
+<span id="cb10-5">    N,M <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_poly.shape</span>
+<span id="cb10-6"></span>
+<span id="cb10-7">    w <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (torch.linalg.inv(x_poly.T<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span>x_poly <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> torch.eye(M))<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span>x_poly.T) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span> y_train.view(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## MxN * Nx1 == Mx1</span></span>
+<span id="cb10-8">    x_poly_test <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_test.unsqueeze(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">pow</span>(powers)</span>
+<span id="cb10-9">    y_pred <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x_poly_test <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">@</span> w    </span>
+<span id="cb10-10"></span>
+<span id="cb10-11">    plt.scatter(x_train, y_train, facecolor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span>, edgecolor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"b"</span>, s<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"training data"</span>)</span>
+<span id="cb10-12">    plt.plot(x_test, y_test, c<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"g"</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"$\sin(2\pi x)$"</span>)</span>
+<span id="cb10-13">    plt.plot(x_test, y_pred, c<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"r"</span>, label<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"fitting"</span>)</span>
+<span id="cb10-14">    plt.ylim(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>)</span>
+<span id="cb10-15">    plt.annotate(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"M=</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">format</span>(degree), xy<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.15</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>))</span></code></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+ ]]></description>
+  <category>ML foundation</category>
+  <category>bayesian</category>
+  <category>PyTorch</category>
+  <guid>https://bibhabasumohapatra.github.io/posts/linear-regression-from-scratch.html</guid>
+  <pubDate>Mon, 15 Apr 2024 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>Understanding how EMA works?</title>
+  <link>https://bibhabasumohapatra.github.io/posts/understanding-how-ema-works.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="exponential-moving-average-ema-in-weight-updates" class="level2">
+<h2 class="anchored" data-anchor-id="exponential-moving-average-ema-in-weight-updates">Exponential Moving Average (EMA) in Weight Updates</h2>
+<p>EMA (Exponential Moving Average) is an incredibly useful concept that finds application in various scenarios:</p>
+<ul>
+<li><p><strong>Weight Updates</strong>: EMA is used for updating model weights while retaining a historical record of previous weights. This enables the model to blend new information with past knowledge effectively.</p></li>
+<li><p><strong>Self-Supervised Learning</strong>: EMA is commonly employed in Self-Supervised Learning setups. The weights obtained from Self-Supervised Learning are often utilized for downstream tasks like classification and segmentation.</p></li>
+</ul>
+<section id="clarification-on-emas-impact" class="level3">
+<h3 class="anchored" data-anchor-id="clarification-on-emas-impact">Clarification on EMA’s Impact</h3>
+<p>Initially, there was a misconception that the EMA process directly impacts the ongoing training of model weights. However, this is not the case. In reality, the EMA process involves the creation of a duplicated set of weights. These duplicate weights are updated alongside the primary training process, and the updated weights are subsequently leveraged for validation purposes. As a result, the overall training procedure remains unaffected by the EMA process.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2023-08-14-understanding-how-ema-works_files/figure-html/4c7cd254-1-5d710aa5-97fa-4545-abeb-3f2102a18726.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>::: {#36edc225 .cell _cell_guid=‘b1076dfc-b9ad-4769-8c92-a6c4dae69d19’ _uuid=‘8f2839f25d086af736a60e9eeb907d3b93b6e0e5’ execution=‘{“iopub.execute_input”:“2023-08-14T15:14:27.136587Z”,“iopub.status.busy”:“2023-08-14T15:14:27.136194Z”,“iopub.status.idle”:“2023-08-14T15:14:30.874853Z”,“shell.execute_reply”:“2023-08-14T15:14:30.873447Z”}’ papermill=‘{“duration”:3.746175,“end_time”:“2023-08-14T15:14:30.877588”,“exception”:false,“start_time”:“2023-08-14T15:14:27.131413”,“status”:“completed”}’ tags=‘[]’ execution_count=1}</p>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch.nn <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> nn</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch</span>
+<span id="cb1-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> copy <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> deepcopy</span>
+<span id="cb1-4"></span>
+<span id="cb1-5"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> Model(nn.Module):</span>
+<span id="cb1-6">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>,):</span>
+<span id="cb1-7">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">super</span>().<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">__init__</span>()</span>
+<span id="cb1-8"></span>
+<span id="cb1-9">        <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.layer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nn.Linear(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>,bias<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>)</span>
+<span id="cb1-10"></span>
+<span id="cb1-11">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> forward(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>,x):</span>
+<span id="cb1-12">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.layer(x)</span>
+<span id="cb1-13">    </span>
+<span id="cb1-14"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@torch.no_grad</span>()</span>
+<span id="cb1-15"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> init_weights_1(m):</span>
+<span id="cb1-16">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(m)</span>
+<span id="cb1-17">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">type</span>(m) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> nn.Linear:</span>
+<span id="cb1-18">        m.weight.fill_(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>)</span>
+<span id="cb1-19">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(m.weight)</span>
+<span id="cb1-20"></span>
+<span id="cb1-21"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@torch.no_grad</span>()</span>
+<span id="cb1-22"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> init_weights_2(m):</span>
+<span id="cb1-23">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(m)</span>
+<span id="cb1-24">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">type</span>(m) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> nn.Linear:</span>
+<span id="cb1-25">        m.weight.fill_(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.0</span>)</span>
+<span id="cb1-26">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(m.weight)</span></code></pre></div>
+<p>:::</p>
+<div id="a8892788" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2023-08-14T15:14:30.886828Z&quot;,&quot;iopub.status.busy&quot;:&quot;2023-08-14T15:14:30.886198Z&quot;,&quot;iopub.status.idle&quot;:&quot;2023-08-14T15:14:30.999982Z&quot;,&quot;shell.execute_reply&quot;:&quot;2023-08-14T15:14:30.998761Z&quot;}" data-papermill="{&quot;duration&quot;:0.121662,&quot;end_time&quot;:&quot;2023-08-14T15:14:31.003024&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2023-08-14T15:14:30.881362&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">teacher <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Model().<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">apply</span>(init_weights_1) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## TO BE UPDATED</span></span>
+<span id="cb2-2">student <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Model().<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">apply</span>(init_weights_2) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">## From Training</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear(in_features=3, out_features=3, bias=False)
+Parameter containing:
+tensor([[1., 1., 1.],
+        [1., 1., 1.],
+        [1., 1., 1.]], requires_grad=True)
+Model(
+  (layer): Linear(in_features=3, out_features=3, bias=False)
+)
+Linear(in_features=3, out_features=3, bias=False)
+Parameter containing:
+tensor([[2., 2., 2.],
+        [2., 2., 2.],
+        [2., 2., 2.]], requires_grad=True)
+Model(
+  (layer): Linear(in_features=3, out_features=3, bias=False)
+)</code></pre>
+</div>
+</div>
+<div id="45066a11" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2023-08-14T15:14:31.012591Z&quot;,&quot;iopub.status.busy&quot;:&quot;2023-08-14T15:14:31.012166Z&quot;,&quot;iopub.status.idle&quot;:&quot;2023-08-14T15:14:31.019071Z&quot;,&quot;shell.execute_reply&quot;:&quot;2023-08-14T15:14:31.018176Z&quot;}" data-papermill="{&quot;duration&quot;:0.014386,&quot;end_time&quot;:&quot;2023-08-14T15:14:31.021255&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2023-08-14T15:14:31.006869&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@torch.no_grad</span>()</span>
+<span id="cb4-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> ema_model(teacher_model, student_model,decay<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>):</span>
+<span id="cb4-3">    teacher_model.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">eval</span>()</span>
+<span id="cb4-4"></span>
+<span id="cb4-5">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> teacher_wt,student_wt <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">zip</span>(teacher_model.state_dict().values(),student_model.state_dict().values()):</span>
+<span id="cb4-6">        teacher_wt.copy_(teacher_wt<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>decay <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> student_wt<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>decay))</span></code></pre></div>
+</div>
+<div id="a11e1661" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2023-08-14T15:14:31.031324Z&quot;,&quot;iopub.status.busy&quot;:&quot;2023-08-14T15:14:31.030527Z&quot;,&quot;iopub.status.idle&quot;:&quot;2023-08-14T15:14:31.040022Z&quot;,&quot;shell.execute_reply&quot;:&quot;2023-08-14T15:14:31.039186Z&quot;}" data-papermill="{&quot;duration&quot;:0.017168,&quot;end_time&quot;:&quot;2023-08-14T15:14:31.042463&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2023-08-14T15:14:31.025295&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">ema_model(teacher,student)</span></code></pre></div>
+</div>
+<div id="2115ad1a" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2023-08-14T15:14:31.052055Z&quot;,&quot;iopub.status.busy&quot;:&quot;2023-08-14T15:14:31.051317Z&quot;,&quot;iopub.status.idle&quot;:&quot;2023-08-14T15:14:31.060576Z&quot;,&quot;shell.execute_reply&quot;:&quot;2023-08-14T15:14:31.059445Z&quot;}" data-papermill="{&quot;duration&quot;:0.017,&quot;end_time&quot;:&quot;2023-08-14T15:14:31.063255&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2023-08-14T15:14:31.046255&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">teacher.state_dict()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>OrderedDict([('layer.weight',
+              tensor([[1.5000, 1.5000, 1.5000],
+                      [1.5000, 1.5000, 1.5000],
+                      [1.5000, 1.5000, 1.5000]]))])</code></pre>
+</div>
+</div>
+<div id="9c42fca9" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2023-08-14T15:14:31.073259Z&quot;,&quot;iopub.status.busy&quot;:&quot;2023-08-14T15:14:31.072576Z&quot;,&quot;iopub.status.idle&quot;:&quot;2023-08-14T15:14:31.080418Z&quot;,&quot;shell.execute_reply&quot;:&quot;2023-08-14T15:14:31.079313Z&quot;}" data-papermill="{&quot;duration&quot;:0.015332,&quot;end_time&quot;:&quot;2023-08-14T15:14:31.082580&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2023-08-14T15:14:31.067248&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">student.state_dict()</span></code></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>OrderedDict([('layer.weight',
+              tensor([[2., 2., 2.],
+                      [2., 2., 2.],
+                      [2., 2., 2.]]))])</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>tools</category>
+  <category>deep learning</category>
+  <category>PyTorch</category>
+  <guid>https://bibhabasumohapatra.github.io/posts/understanding-how-ema-works.html</guid>
+  <pubDate>Sun, 13 Aug 2023 18:30:00 GMT</pubDate>
+</item>
+</channel>
+</rss>
