@@ -1,26 +1,23 @@
+
 ---
-title: "Sayak Paul"
-toc: false
+title: "Bibhabasu's Blog Page"
+listing:
+  sort: "date desc"
+  contents: "posts"
+  categories: false
+  feed: true
+# page-layout: full
 ---
+Hi there 👋 This is my Blog Page - Though I wanted to creat my personal site using Nextjs or React only, but some how I love blogging on quarto . . . now using sayak's already available (which  used for my previous site, got back to blog on quarto)
+my site - [bibhabasu-mohapatra.space](https://bibhabasu-mohapatra.space)
 
-<img src="posts/carted_headshot.jpg" style="float: left; width: 230px; margin-right: 20px;"> Hi there 👋 I am Sayak Paul (সায়ক পাল). I work on [🧨 diffusion models](https://hf.co/docs/diffusers) at [Hugging Face](https://hf.co). Know more about me from [here](https://sayak.dev/about). I maintain a Google Doc answering some FAQs at length. You can check it out [here](https://bit.ly/sayak-faqs). </img>
+I am Bibhabasu Mohapatra. Currently working as a Data Scientist at Microsoft, previously working as an Engineer(Computer Vision) at Aira Matrix.
 
-My external articles and other publishing engagements (like books, liveProjects, etc.) are listed [here](pages/authoring.qmd). Decks
-from my speaking engagements are listed [here](pages/talksseminarsworkshops.qmd). A detailed account of the things that are not
-directly available from the top navbar (interviews, talks etc.) can be found [here](pages/resources.qmd).
-
-The structure of this website is inspired by [Omar's site](https://osanseviero.github.io/hackerllama/).
+I'm particularly interested and want to work in topics related to self-supervised learning, multi-modal learning, and Representations
 <br><br>
 
-### News
-
-- New work in collaboration with KAIST AI and Korea University: [Margin-aware Preference Optimization for Aligning Diffusion Models without Reference](https://mapo-t2i.github.io/).
-- We open-sourced a repository [`diffusers-torchao`](https://github.com/sayakpaul/diffusers-torchao) that contains recipes to optimize the runtime for large diffusion models like Flux and Cog-Video. 
-- We open-sourced [`cogvideox-factory`](https://github.com/a-r-r-o-w/cogvideox-factory), a repository that allows fine-tuning the Cog family of T2V and I2V models under 24GB GPU VRAM.
-- Shipped quantization in Diffusers. Follow [this thread](https://x.com/RisingSayak/status/1848373306233364847) to know more.
-- Flux.1 Dev LoRA training with quantization is now possible. Guide is [here](https://github.com/huggingface/diffusers/tree/main/examples/research_projects/flux_lora_quantization).
-
-To know about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
-
-Apart from the blogs [here](blog.qmd), I try to contribute to other platforms in the form of writing. Please refer [here](https://sayak.dev/authoring)
+Open for Research Opportunities in Academia.
 for more details.
+
+---
+
