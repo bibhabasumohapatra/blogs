@@ -1,20 +1,26 @@
 [
   {
-    "listing": "/blog.html",
-    "items": [
-      "/posts/linear-regression-from-scratch.html",
-      "/posts/visualizing-vision-transformers-timm.html",
-      "/posts/understanding-how-ema-works.html",
-      "/posts/deep-supervised-in-segmentation-models-pytorch.html"
-    ]
-  },
-  {
     "listing": "/index.html",
     "items": [
       "/posts/linear-regression-from-scratch.html",
       "/posts/visualizing-vision-transformers-timm.html",
       "/posts/understanding-how-ema-works.html",
-      "/posts/deep-supervised-in-segmentation-models-pytorch.html"
+      "/posts/deep-supervised-in-segmentation-models-pytorch.html",
+      "/posts/thresholding-using-scikit-image.html",
+      "/posts/Start-with-Transformers-for-Beginners.html",
+      "/posts/language is-not-a-formal-system-language-is-glorious-chaos.html"
+    ]
+  },
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/linear-regression-from-scratch.html",
+      "/posts/visualizing-vision-transformers-timm.html",
+      "/posts/understanding-how-ema-works.html",
+      "/posts/deep-supervised-in-segmentation-models-pytorch.html",
+      "/posts/thresholding-using-scikit-image.html",
+      "/posts/Start-with-Transformers-for-Beginners.html",
+      "/posts/language is-not-a-formal-system-language-is-glorious-chaos.html"
     ]
   }
 ]

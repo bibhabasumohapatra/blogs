@@ -12,23 +12,28 @@
 <generator>quarto-1.6.33</generator>
 <lastBuildDate>Mon, 15 Apr 2024 18:30:00 GMT</lastBuildDate>
 <item>
-  <title>Linear Regression from Scratch</title>
+  <title>Polynomial Curve Fitting and doing Linear Regression from Scratch (!! Four ways to Solve a Least Squares Problem)</title>
   <link>https://bibhabasumohapatra.github.io/posts/linear-regression-from-scratch.html</link>
   <description><![CDATA[ 
 
 
 
 
-<section id="chapter-1" class="level1">
-<h1>Chapter 1</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>This blog is a reading follow up of the book Pattern Recognition in Machine Learning by Chris Bishop. In his first example in the chapter he explores curve fitting. There are lot of equations directly at you, and if you understand it easy and beautiful. I come from more of a sklearn, and pytorch setting the world of Machine learning is kind of black box who just use pytorch nn bindings or sklearn linear regresion or xgboost for work. But the the Introduction to Gilbert strangs lecture or book like PRML will clean your mind and will act as detox for your brain which is filled with hundreds of abstraction and libraries. And the detox from hundreds of libraries will make you understand the TRUE WORLD made by us humans. While implementinhg this I realised that we just nead to find Pseudo-Inverses of Weight Matrix, which would also scale to test data. . . its just not all about fancy SGD optimization rather it can be about just finding Inverses of a Matrix to solve your world problems</p>
 <section id="example-polynomial-curve-fitting" class="level3">
 <h3 class="anchored" data-anchor-id="example-polynomial-curve-fitting">1.1. Example: Polynomial Curve Fitting</h3>
-<div id="cell-3" class="cell" data-execution_count="1">
+<div id="cell-4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> torch</span></code></pre></div>
 </div>
-<div id="cell-4" class="cell" data-execution_count="2">
+<div id="cell-5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">x_train <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> torch.linspace(<span class="dv" style="color: #AD0000;
@@ -85,7 +90,7 @@ font-style: inherit;">*</span>x_test) </span></code></pre></div>
 </section>
 <section id="plot-training-data" class="level2">
 <h2 class="anchored" data-anchor-id="plot-training-data">plot training data</h2>
-<div id="cell-6" class="cell" data-execution_count="3">
+<div id="cell-7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
@@ -103,7 +108,10 @@ font-style: inherit;">as</span> plt</span>
 </section>
 <section id="fit-the-linear-model-on-training-data" class="level2">
 <h2 class="anchored" data-anchor-id="fit-the-linear-model-on-training-data">Fit the Linear model on Training data</h2>
+<section id="part-below-directly-comes-from-gilbert-strangs-lectures-at-mit-lecture-09---four-ways-to-solve-least-square-problemshttpsyoutu.bezuu57q3cfousiwsyz5c10c4akisjd-believe-me-world-is-just-filled-with-least-square-problems-everywhere" class="level4">
+<h4 class="anchored" data-anchor-id="part-below-directly-comes-from-gilbert-strangs-lectures-at-mit-lecture-09---four-ways-to-solve-least-square-problemshttpsyoutu.bezuu57q3cfousiwsyz5c10c4akisjd-believe-me-world-is-just-filled-with-least-square-problems-everywhere">Part below directly comes from Gilbert Strang’s Lectures at MIT (Lecture 09 - Four Ways to Solve Least Square Problems)[https://youtu.be/ZUU57Q3CFOU?si=WSYz5c10C4AKISjD] believe me world is just filled with Least Square Problems everywhere</h4>
 <p>To solve for the optimal weight matrix ( W ), given the expression ( (XW - Y)^T (XW - Y) ), we can proceed by first expanding the expression and then minimizing it with respect to ( W ).</p>
+</section>
 <section id="step-1-expand-the-expression" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-expand-the-expression">Step 1: Expand the expression</h3>
 <p>Given: <img src="https://latex.codecogs.com/png.latex?%0AL(W)%20=%20(XW%20-%20Y)%5ET%20(XW%20-%20Y)%0A"></p>
@@ -121,7 +129,7 @@ font-style: inherit;">as</span> plt</span>
 <h3 class="anchored" data-anchor-id="final-answer">Final Answer</h3>
 <p>The optimal weight matrix ( W ) is given by: <img src="https://latex.codecogs.com/png.latex?%0A%5Cboxed%7BW%20=%20(X%5ET%20X)%5E%7B-1%7D%20X%5ET%20Y%7D%0A"></p>
 <p>This result is commonly known as the <strong>Normal Equation</strong> in linear regression.</p>
-<div id="cell-9" class="cell" data-execution_count="15">
+<div id="cell-11" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">powers <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> torch.arange(<span class="dv" style="color: #AD0000;
@@ -154,13 +162,13 @@ font-style: inherit;">1</span>) <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">## MxN * Nx1 == Mx1</span></span></code></pre></div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="16">
+<div id="cell-12" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">w.shape, x_test.shape</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>(torch.Size([5, 1]), torch.Size([200]))</code></pre>
 </div>
 </div>
-<div id="cell-11" class="cell" data-execution_count="17">
+<div id="cell-13" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">x_poly_test <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> x_test.unsqueeze(<span class="op" style="color: #5E5E5E;
@@ -176,7 +184,7 @@ font-style: inherit;">=</span> x_poly_test <span class="op" style="color: #5E5E5
 background-color: null;
 font-style: inherit;">@</span> w</span></code></pre></div>
 </div>
-<div id="cell-12" class="cell" data-execution_count="18">
+<div id="cell-14" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> matplotlib.pyplot <span class="im" style="color: #00769E;
@@ -218,7 +226,7 @@ font-style: inherit;">"$\sin(2\pi x)$"</span>)</span>
 </div>
 </div>
 </div>
-<div id="cell-13" class="cell" data-execution_count="19">
+<div id="cell-15" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
@@ -383,7 +391,7 @@ font-style: inherit;">1</span>))</span></code></pre></div>
 <h3 class="anchored" data-anchor-id="final-answer-1">Final Answer</h3>
 <p>The optimal weight matrix ( W ) is: <img src="https://latex.codecogs.com/png.latex?%0A%5Cboxed%7BW%20=%20(X%5ET%20X%20+%20I)%5E%7B-1%7D%20X%5ET%20Y%7D%0A"></p>
 <p>This result includes a regularization term ( W^T W ), which is common in <strong>Ridge Regression</strong> or <strong>Tikhonov Regularization</strong>.</p>
-<div id="cell-16" class="cell" data-execution_count="4">
+<div id="cell-18" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="cf" style="color: #003B4F;
 background-color: null;
 font-weight: bold;
@@ -535,7 +543,6 @@ font-style: inherit;">1</span>))</span></code></pre></div>
 
 </section>
 </section>
-</section>
 
  ]]></description>
   <category>ML foundation</category>
@@ -545,14 +552,17 @@ font-style: inherit;">1</span>))</span></code></pre></div>
   <pubDate>Mon, 15 Apr 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
-  <title>Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks?</title>
+  <title>Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks!!</title>
   <link>https://bibhabasumohapatra.github.io/posts/visualizing-vision-transformers-timm.html</link>
   <description><![CDATA[ 
 
 
 
 
-<div id="7fd97189" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-03-29T09:22:30.157544Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-03-29T09:22:30.157240Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-03-29T09:22:35.727608Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-03-29T09:22:35.726822Z&quot;}" data-papermill="{&quot;duration&quot;:5.5794,&quot;end_time&quot;:&quot;2024-03-29T09:22:35.729895&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2024-03-29T09:22:30.150495&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]" data-execution_count="1">
+<p>This Blogs is a Part 2 of my Vision Transformer From Scratch Series, where I implement ViT from scratch. This Blog explores more on the Exaplainibility and visualizing the Saliency maps of any Transformer based Vision Model, It also delves into the concept of PyTorch Hooks which is used here to get the attention outputs from timm models. Where my basic understanding comes from Official Pytorch Hooks Documentation.</p>
+<p>also credits : - https://github.com/huggingface/pytorch-image-models/blob/main/timm/models/vision_transformer.py</p>
+<p>also available as youtube Video: - https://youtu.be/7q3NGMkEtjI?si=zRnBBIo5LEwrQM7e</p>
+<div id="7fd97189" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-03-29T09:22:30.157544Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-03-29T09:22:30.157240Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-03-29T09:22:35.727608Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-03-29T09:22:35.726822Z&quot;}" data-papermill="{&quot;duration&quot;:5.5794,&quot;end_time&quot;:&quot;2024-03-29T09:22:35.729895&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2024-03-29T09:22:30.150495&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">import</span> torch</span>
@@ -1072,10 +1082,9 @@ font-style: inherit;">0</span>,:,:].detach().cpu().numpy()</span>
 
 
  ]]></description>
-  <category>Vision Transformer</category>
+  <category>Transformer</category>
   <category>Deep Learning</category>
   <category>PyTorch</category>
-  <category>Timm</category>
   <guid>https://bibhabasumohapatra.github.io/posts/visualizing-vision-transformers-timm.html</guid>
   <pubDate>Thu, 28 Mar 2024 18:30:00 GMT</pubDate>
 </item>
@@ -1311,7 +1320,6 @@ font-style: inherit;">-</span>decay))</span></code></pre></div>
 </section>
 
  ]]></description>
-  <category>tools</category>
   <category>deep learning</category>
   <category>PyTorch</category>
   <guid>https://bibhabasumohapatra.github.io/posts/understanding-how-ema-works.html</guid>
@@ -1325,19 +1333,11 @@ font-style: inherit;">-</span>decay))</span></code></pre></div>
 
 
 
-<section id="in-this-notebook---i-share-my-understanding-and-my-work-related-to-deep-supervision-in-models-and-loss-function-i-feel-deep-supervision-is-sometimes-useful-in-the-cases-where-the-segmentation-part-bit-hard-to-get-detected." class="level1">
-<h1>In this Notebook - I share my understanding and my Work related to Deep Supervision in Models and Loss Function, I feel Deep Supervision is Sometimes Useful in the cases where the segmentation part bit hard to get detected.</h1>
-<section id="with-my-own-understanding-and-thinking-i-try-to-implement-deep-supervision." class="level4">
-<h4 class="anchored" data-anchor-id="with-my-own-understanding-and-thinking-i-try-to-implement-deep-supervision.">With my own understanding and thinking I try to implement Deep Supervision.</h4>
-</section>
-<section id="as-it-is-conversion-of-smps-unet-code-to-deep-supervision.-.-.-i-might-have-made-mistakes-or-maybe-all-of-my-work-is-a-mess-or-may-be-its-evolutionary-for-kaggle--let-me-know-in-the-comments." class="level4">
-<h4 class="anchored" data-anchor-id="as-it-is-conversion-of-smps-unet-code-to-deep-supervision.-.-.-i-might-have-made-mistakes-or-maybe-all-of-my-work-is-a-mess-or-may-be-its-evolutionary-for-kaggle--let-me-know-in-the-comments.">As it is conversion of SMP’s Unet Code to Deep Supervision. . . I might have made mistakes, or maybe all of my work is a mess or may be its Evolutionary for Kaggle- Let me know in the comments.</h4>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png" class="img-fluid figure-img"></p>
-<figcaption>image.png</figcaption>
-</figure>
-</div>
+<p>In this Notebook - I share my understanding and my Work related to Deep Supervision in Models and Loss Function, I feel Deep Supervision is Sometimes Useful in the cases where the segmentation part bit hard to get detected.</p>
+<ul>
+<li>With my own understanding and thinking I try to implement Deep Supervision.</li>
+<li>As it is conversion of SMP’s Unet Code to Deep Supervision. . . I might have made mistakes, or maybe all of my work is a mess or may be its Evolutionary for Kaggle- Let me know in the comments. <img src="https://bibhabasumohapatra.github.io/posts/2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png" class="img-fluid" alt="image.png"></li>
+</ul>
 <p>::: {#cell-2 .cell _cell_guid=‘b1076dfc-b9ad-4769-8c92-a6c4dae69d19’ _uuid=‘8f2839f25d086af736a60e9eeb907d3b93b6e0e5’ execution=‘{“iopub.execute_input”:“2023-03-31T15:18:34.645310Z”,“iopub.status.busy”:“2023-03-31T15:18:34.645013Z”,“iopub.status.idle”:“2023-03-31T15:19:08.473332Z”,“shell.execute_reply”:“2023-03-31T15:19:08.471964Z”,“shell.execute_reply.started”:“2023-03-31T15:18:34.645281Z”}’ trusted=‘true’ execution_count=1}</p>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1354,11 +1354,9 @@ font-style: inherit;">/</span>qubvel<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">/</span>segmentation_models.pytorch</span></code></pre></div>
 <p>:::</p>
-</section>
-<section id="here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels." class="level2">
-<h2 class="anchored" data-anchor-id="here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels.">Here directly copied the Decoder code of Segmentation Model PyTorch Unet. And in the class UnetDecoder I simply also appended the outputs in the Decoder and Passed it also through different Segmentation heads according to their Channels.</h2>
-<section id="my-output-basically-goes-from-larger-image-prediction-to-smaller-outputs-of-unet." class="level3">
-<h3 class="anchored" data-anchor-id="my-output-basically-goes-from-larger-image-prediction-to-smaller-outputs-of-unet.">My Output basically goes from Larger Image (prediction) to smaller outputs of unet.</h3>
+<section id="here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels." class="level4">
+<h4 class="anchored" data-anchor-id="here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels.">Here directly copied the Decoder code of Segmentation Model PyTorch Unet. And in the class UnetDecoder I simply also appended the outputs in the Decoder and Passed it also through different Segmentation heads according to their Channels.</h4>
+<p>My Output basically goes from Larger Image (prediction) to smaller outputs of unet.</p>
 <p>example :</p>
 <ul>
 <li>torch.Size([1, 1, 384, 384])</li>
@@ -2143,11 +2141,9 @@ torch.Size([1, 1, 24, 24])</code></pre>
 </div>
 </div>
 </section>
-</section>
-<section id="this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss." class="level2">
-<h2 class="anchored" data-anchor-id="this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss.">This is My Custom Loss Function that takes output from all Decoder block and interpolates the Ground Truth(Labels/Targets) and calculates the loss.</h2>
-<section id="the-w-weight-is-actually-12index-of-input-according-to-which-more-importance-is-given-to-the-main-prediction-and-smaller-and-smaller-weight-is-given-to-deeper-decoder-outputs." class="level3">
-<h3 class="anchored" data-anchor-id="the-w-weight-is-actually-12index-of-input-according-to-which-more-importance-is-given-to-the-main-prediction-and-smaller-and-smaller-weight-is-given-to-deeper-decoder-outputs.">The “w” weight is actually 1/2^(index of input) according to which more importance is given to the Main Prediction and smaller and smaller weight is given to deeper Decoder outputs.</h3>
+<section id="this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss." class="level4">
+<h4 class="anchored" data-anchor-id="this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss.">This is My Custom Loss Function that takes output from all Decoder block and interpolates the Ground Truth(Labels/Targets) and calculates the loss.</h4>
+<p>The “w” weight is actually 1/2^(index of input) according to which more importance is given to the Main Prediction and smaller and smaller weight is given to deeper Decoder outputs.</p>
 <div id="cell-6" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2023-03-31T15:21:33.336639Z&quot;,&quot;iopub.status.busy&quot;:&quot;2023-03-31T15:21:33.336039Z&quot;,&quot;iopub.status.idle&quot;:&quot;2023-03-31T15:21:33.343880Z&quot;,&quot;shell.execute_reply&quot;:&quot;2023-03-31T15:21:33.342574Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2023-03-31T15:21:33.336601Z&quot;}" data-trusted="true" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="kw" style="color: #003B4F;
 background-color: null;
@@ -2245,7 +2241,6 @@ background-color: null;
 font-weight: bold;
 font-style: inherit;">return</span> loss     </span></code></pre></div>
 </div>
-</section>
 </section>
 <section id="good-news-is-all-smps-and-timms-pretrained-weight-work-here" class="level2">
 <h2 class="anchored" data-anchor-id="good-news-is-all-smps-and-timms-pretrained-weight-work-here">Good News is all SMP’s and timm’s Pretrained weight work here</h2>
@@ -2358,14 +2353,176 @@ font-style: inherit;">print</span>(loss.item())</span></code></pre></div>
 
 
 </section>
-</section>
 
  ]]></description>
-  <category>Medical AI</category>
   <category>segmentation</category>
   <category>PyTorch</category>
   <guid>https://bibhabasumohapatra.github.io/posts/deep-supervised-in-segmentation-models-pytorch.html</guid>
   <pubDate>Thu, 30 Mar 2023 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>Thresholding using scikit image (part of my kaggle submission code)</title>
+  <link>https://bibhabasumohapatra.github.io/posts/thresholding-using-scikit-image.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="when-i-attempted-segmentation-problems-and-generated-masks-i-faced-a-significant-problem-with-thresholding-parameters.-if-you-have-a-mask-or-image-with-a-very-sparse-pixel-value-all-over-then-you-wont-be-able-to-see-the-real-image-rather-it-acts-like-a-secret-note-which-is-only-visible-when-you-show-it-in-sunlight.i-searched-for-a-way-in-my-kaggle-competition-submission-to-convert-a-mask-to-a-binary-mask-without-randomly-setting-the-threshold.-link-to-the-80th-place-notebook-here---httpswww.kaggle.comcodenishantbhansalirank-80th-train-coat-hubmap-final-for-lb-part-3" class="level4">
+<h4 class="anchored" data-anchor-id="when-i-attempted-segmentation-problems-and-generated-masks-i-faced-a-significant-problem-with-thresholding-parameters.-if-you-have-a-mask-or-image-with-a-very-sparse-pixel-value-all-over-then-you-wont-be-able-to-see-the-real-image-rather-it-acts-like-a-secret-note-which-is-only-visible-when-you-show-it-in-sunlight.i-searched-for-a-way-in-my-kaggle-competition-submission-to-convert-a-mask-to-a-binary-mask-without-randomly-setting-the-threshold.-link-to-the-80th-place-notebook-here---httpswww.kaggle.comcodenishantbhansalirank-80th-train-coat-hubmap-final-for-lb-part-3">When I attempted segmentation problems and generated masks I faced a significant problem with thresholding parameters. If you have a mask or image with a very sparse pixel value all over then you won’t be able to see the real image rather it acts like a secret note which is only visible when you show it in sunlight.I searched for a way in my Kaggle Competition submission to convert a mask to a binary mask without randomly setting the threshold. lINK TO THE 80TH Place Notebook Here - https://www.kaggle.com/code/nishantbhansali/rank-80th-train-coat-hubmap-final-for-lb-part-3</h4>
+<p>my mask looked like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2022-07-03-thresholding-using-scikit-image_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>I was randomly trying out thresholds like 0.5, 0.70, . . . 0.14 . . . and it is almost impossible to do the same for every experiment. Rather I searched for a how-to convert masks to binary masks with an automated threshold. Then I stumbled upon thresholding on the scikit image and the tutorial is very simple to use any thresholding. Link &gt;&gt; from skimage.filters import threshold_minimum, threshold_isodata, threshold_li, threshold_mean, threshold_otsu</p>
+<p>I tried all of them for my different experiments. And each of them had a different result. My final submission looked like this, which can smoothen a bit more this gave me a top leaderboard accuracy like a 0.78 Dice Score on LeaderBoard here.</p>
+<p>More on different types of thresholding techniques :</p>
+<p>The thresholding technique’s basic idea is —</p>
+<ol type="1">
+<li>to find a threshold by performing some operation on the Image i.e.&nbsp;threshold = Function(Image)</li>
+<li>Binary_Image = Image &gt; threshold</li>
+</ol>
+<div id="cell-4" class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1">mask <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> transform.resize(mask, (df_valid.img_height, df_valid.img_width))</span>
+<span id="cb1-2"></span>
+<span id="cb1-3">threshold <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> filters.threshold_mean(mask) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#threshold_isodata, threshold_otsu, threshold_li, threshold_mean etc.</span></span>
+<span id="cb1-4">mask <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> mask <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span> threshold</span>
+<span id="cb1-5">mask <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> mask.astype(np.int8)</span></code></pre></div>
+</div>
+<p>So it is like when we do mean thresholding it is like threshold = Mean(Image). Where in minimum thresholding, thresholding = Minimum(Image).</p>
+<p>But the techniques like Otsu’s Threshold go beyond the ways of Minimum or mean to find the Threshold.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Kaggle</category>
+  <category>Image Processing</category>
+  <guid>https://bibhabasumohapatra.github.io/posts/thresholding-using-scikit-image.html</guid>
+  <pubDate>Sat, 02 Jul 2022 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>Start with Transformers for Beginners</title>
+  <link>https://bibhabasumohapatra.github.io/posts/Start-with-Transformers-for-Beginners.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>copying to my new blog page from :https://medium.com/<span class="citation" data-cites="bibhabasumohapatrabm/start-with-transformers-for-beginners-2-5040c2acab7b">@bibhabasumohapatrabm/start-with-transformers-for-beginners-2-5040c2acab7b</span></p>
+<p>Link to the previous blog — https://medium.com/<span class="citation" data-cites="bibhabasumohapatrabm/start-with-transformers-for-beginners-54e147ca5a7c">@bibhabasumohapatrabm/start-with-transformers-for-beginners-54e147ca5a7c</span></p>
+<p>Attention Mechanism fails as the RNN computations are inherently sequential and not parallel. In contrast, that is not the case with Transformers, So a new concept is introduced, instead of relying on the recurrence, we use special attention called self-attention.</p>
+<p>“Attention in RNNs refers to the computing relevance of each encoder’s hidden state to the decoder’s hidden state. In RNNs we use the fixed embedding for each token.</p>
+<p>Where “self” refers to the fact that these weights are computed for all hidden states, we use the sequence to compute the weighted average of each embedding.” — NLP with Transformers.</p>
+<p>Summarizing in simple words:</p>
+<p>So basically, in ATTENTION it’s like, we have to encode a vector of fixed length and wait for the corresponding output vector and repeat the process and at the same time input the outputs of the corresponding inputs and give that to the other time-stamped inputs to use attention.</p>
+<p>Where “ SELF “ ATTENTION helps us to get outputs and attention simultaneously, weights are different for each input embedding -</p>
+<p><img src="https://latex.codecogs.com/png.latex?%5Cbar%7Bx%7D_i%20=%20%5Csum%20w_%7Bij%7D%20x_i"></p>
+<p>Q → What are contextualized embeddings?</p>
+<p>Example: ”Time flies like an arrow” → flies here is referred to as a verb.</p>
+<p>rather than insects.</p>
+<p>contextual embeddings:</p>
+<p>We use the representation of the word, that fits the context i.e.&nbsp;the words neighboring the word “flies”, “Time” and “Arrow” tells us that “flies” is Verb. Hence, providing more weight Wij to the embeddings of “Time” and “Arrow” will be a better choice, and embeddings generated this way are called Contextualized Embeddings.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2022-06-04-Start-with-Transformers-for-Beginners_files/figure-html/cell-3-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>In the Paper “Attention is all you need”</p>
+<p>We were introduced to the Scaled- dot product Attention:</p>
+<p>Scaled-dot Attention is one of the ways to implement self-attention layers -</p>
+<p>we have three vectors query, key, and value. a good example in the Book NLP with transformers makes it easy to understand what is a query, key, and value. When we go to the Supermarket, we have a dish recipe and the ingredients in the recipe are queries. — As you scan through shelves, you will check every label. So labels are key. — When you have while scanning, you take that item<strong>. So the item is the value.</strong> 2. We calculate how much query and key relate/are similar to each other, we do this by dot product, for more about similarity and dot-product → go to this blog by me. we gt Q.K (dot product) → these dot products are called attention scores, So if there are N inputs then there is an NxN matrix of Attention scores</p>
+<ol start="3" type="1">
+<li>To normalize large values, attention scores are multiplied by a scaling factor to normalize and then normalized with a softmax to ensure all the column values sum to 1. We get, attention weights Wij</li>
+</ol>
+<p><img src="https://latex.codecogs.com/png.latex?w_%7Bij%7D%20=%20%5Ctext%7BNormalized%7D(Q%20%5Ccdot%20K)"></p>
+<ol start="4" type="1">
+<li>Once we get Attention to weights,</li>
+</ol>
+<p>we multiply them by value vector (v_1, v_2, , v_N). So we have an updated embedding <img src="https://latex.codecogs.com/png.latex?%0A%5Cbar%7Bx%7D_i%20=%20%5Csum%20w_%7Bij%7D%20x_j%0A"></p>
+<p>How to implement what we learned? How to do it from scratch? this is in the 3rd chapter of Natural Language Processing with Transformers with Hugging Face.</p>
+<p>I will cover it in the next blog . . . stay with me!!!!</p>
+<p>RESOURCES : (treat it as notes from CS224n and mentioned book )</p>
+<p>→ Stanford Youtube CS224n and slides</p>
+<p>→ Natural Language Processing with Transformers with Hugging Face Chapter 3</p>
+
+
+
+ ]]></description>
+  <category>NLP</category>
+  <category>Transformer</category>
+  <guid>https://bibhabasumohapatra.github.io/posts/Start-with-Transformers-for-Beginners.html</guid>
+  <pubDate>Fri, 03 Jun 2022 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>Language is Not a formal System, Language is glorious Chaos - Chris Manning (cs224n)</title>
+  <link>https://bibhabasumohapatra.github.io/posts/language is-not-a-formal-system-language-is-glorious-chaos.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>“Language is Not a formal System, Language is glorious Chaos” — . . . Chris Manning , CS224N ( https://xkcd.com/1576/)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://bibhabasumohapatra.github.io/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<section id="meaning-of-a-word" class="level3">
+<h3 class="anchored" data-anchor-id="meaning-of-a-word">Meaning of a Word</h3>
+<p>The idea that is represented by words, phrases, etc. is the idea that a person wants to convey using words, signs, etc. This idea is expressed in a work of writing, art, etc.</p>
+</section>
+<section id="representing-words-as-discrete-symbols" class="level3">
+<h3 class="anchored" data-anchor-id="representing-words-as-discrete-symbols">Representing Words as Discrete Symbols</h3>
+<p>In NLP, we treat words as discrete symbols. For example, consider the words “hotel,” “conference,” and “motel” as Localist Representations using one-hot vectors:</p>
+<ul>
+<li><strong>motel</strong> = [0, 0, …, 0, 1, 0, 0, 0]</li>
+<li><strong>hotel</strong> = [0, 0, 1, 0, …, 0, 0, 0]</li>
+</ul>
+<p><strong>What will be the dimension of the vector?</strong></p>
+<p>The dimension of the vector will be the number of words in the vocabulary. If a language has only two words, symbols, or signs in its vocabulary, then it will have two vectors: [0,1] and [1,0].</p>
+</section>
+<section id="problems-with-words-as-discrete-symbols" class="level3">
+<h3 class="anchored" data-anchor-id="problems-with-words-as-discrete-symbols">Problems with Words as Discrete Symbols</h3>
+<p>It’s very important to understand and address the issues with treating words as discrete symbols. For instance, consider the vectors for “motel” and “hotel.” Aren’t they orthogonal vectors?</p>
+<p><strong>What are orthogonal vectors?</strong></p>
+<p>Orthogonal vectors are vectors that are perpendicular to each other, meaning their dot product is zero. Let’s calculate the dot product of “motel” and “hotel” — it’s zero!</p>
+</section>
+<section id="what-if-the-dot-product-is-zero" class="level3">
+<h3 class="anchored" data-anchor-id="what-if-the-dot-product-is-zero">What if the Dot Product is Zero?</h3>
+<p>Consider two 2-D vectors A and B. We can represent A and B as:</p>
+<ul>
+<li>A = 2i + 3j</li>
+<li>B = 2i + 2j</li>
+</ul>
+<p>(where i and j are unit vectors along the x and y axes)</p>
+<p>We can then ask how much A lies on B. The answer will be the component of A along B. So, what is this component?</p>
+<p><img src="https://bibhabasumohapatra.github.io/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-3-image.png" class="img-fluid" alt="image.png"> <img src="https://bibhabasumohapatra.github.io/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-1-image-2.png" class="img-fluid" alt="image-2.png"> <img src="https://bibhabasumohapatra.github.io/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-2-image-3.png" class="img-fluid" alt="image-3.png"></p>
+
+
+</section>
+
+ ]]></description>
+  <category>NLP</category>
+  <guid>https://bibhabasumohapatra.github.io/posts/language is-not-a-formal-system-language-is-glorious-chaos.html</guid>
+  <pubDate>Tue, 01 Feb 2022 18:30:00 GMT</pubDate>
 </item>
 </channel>
 </rss>

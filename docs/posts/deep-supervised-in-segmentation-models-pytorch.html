@@ -110,6 +110,7 @@ ga('send', {
 <meta property="og:description" content="Tutorial code of how I integrated Deep Supervision Loss generation setup with Segmentation Models PyTorch Framework, which could be Directly us with Minimal changes">
 <meta property="og:image" content="https://bibhabasumohapatra.github.io/posts/2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png">
 <meta property="og:site_name" content="Bibhabasu's Blogs">
+<meta property="og:image:alt" content="image.png">
 <meta property="og:image:height" content="871">
 <meta property="og:image:width" content="1592">
 <meta name="twitter:title" content="Integrating Deep Supervision in Segmentation Models Pytorch (smp)? – Bibhabasu’s Blogs">
@@ -117,6 +118,7 @@ ga('send', {
 <meta name="twitter:image" content="https://bibhabasumohapatra.github.io/posts/2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png">
 <meta name="twitter:creator" content="@RisingSayak">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image:alt" content="image.png">
 <meta name="twitter:image-height" content="871">
 <meta name="twitter:image-width" content="1592">
 </head>
@@ -173,23 +175,12 @@ ga('send', {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#in-this-notebook---i-share-my-understanding-and-my-work-related-to-deep-supervision-in-models-and-loss-function-i-feel-deep-supervision-is-sometimes-useful-in-the-cases-where-the-segmentation-part-bit-hard-to-get-detected." id="toc-in-this-notebook---i-share-my-understanding-and-my-work-related-to-deep-supervision-in-models-and-loss-function-i-feel-deep-supervision-is-sometimes-useful-in-the-cases-where-the-segmentation-part-bit-hard-to-get-detected." class="nav-link active" data-scroll-target="#in-this-notebook---i-share-my-understanding-and-my-work-related-to-deep-supervision-in-models-and-loss-function-i-feel-deep-supervision-is-sometimes-useful-in-the-cases-where-the-segmentation-part-bit-hard-to-get-detected.">In this Notebook - I share my understanding and my Work related to Deep Supervision in Models and Loss Function, I feel Deep Supervision is Sometimes Useful in the cases where the segmentation part bit hard to get detected.</a>
-  <ul class="collapse">
-  <li><a href="#here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels." id="toc-here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels." class="nav-link" data-scroll-target="#here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels.">Here directly copied the Decoder code of Segmentation Model PyTorch Unet. And in the class UnetDecoder I simply also appended the outputs in the Decoder and Passed it also through different Segmentation heads according to their Channels.</a>
-  <ul class="collapse">
-  <li><a href="#my-output-basically-goes-from-larger-image-prediction-to-smaller-outputs-of-unet." id="toc-my-output-basically-goes-from-larger-image-prediction-to-smaller-outputs-of-unet." class="nav-link" data-scroll-target="#my-output-basically-goes-from-larger-image-prediction-to-smaller-outputs-of-unet.">My Output basically goes from Larger Image (prediction) to smaller outputs of unet.</a></li>
-  </ul></li>
-  <li><a href="#this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss." id="toc-this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss." class="nav-link" data-scroll-target="#this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss.">This is My Custom Loss Function that takes output from all Decoder block and interpolates the Ground Truth(Labels/Targets) and calculates the loss.</a>
-  <ul class="collapse">
-  <li><a href="#the-w-weight-is-actually-12index-of-input-according-to-which-more-importance-is-given-to-the-main-prediction-and-smaller-and-smaller-weight-is-given-to-deeper-decoder-outputs." id="toc-the-w-weight-is-actually-12index-of-input-according-to-which-more-importance-is-given-to-the-main-prediction-and-smaller-and-smaller-weight-is-given-to-deeper-decoder-outputs." class="nav-link" data-scroll-target="#the-w-weight-is-actually-12index-of-input-according-to-which-more-importance-is-given-to-the-main-prediction-and-smaller-and-smaller-weight-is-given-to-deeper-decoder-outputs.">The “w” weight is actually 1/2^(index of input) according to which more importance is given to the Main Prediction and smaller and smaller weight is given to deeper Decoder outputs.</a></li>
-  </ul></li>
-  <li><a href="#good-news-is-all-smps-and-timms-pretrained-weight-work-here" id="toc-good-news-is-all-smps-and-timms-pretrained-weight-work-here" class="nav-link" data-scroll-target="#good-news-is-all-smps-and-timms-pretrained-weight-work-here">Good News is all SMP’s and timm’s Pretrained weight work here</a>
+  <li><a href="#good-news-is-all-smps-and-timms-pretrained-weight-work-here" id="toc-good-news-is-all-smps-and-timms-pretrained-weight-work-here" class="nav-link active" data-scroll-target="#good-news-is-all-smps-and-timms-pretrained-weight-work-here">Good News is all SMP’s and timm’s Pretrained weight work here</a>
   <ul class="collapse">
   <li><a href="#only-thing-we-need-to-take-care-is-we-must-get-segmetation-model-class-instead-of-smp.unet-of-library-to-use-deep-supervision" id="toc-only-thing-we-need-to-take-care-is-we-must-get-segmetation-model-class-instead-of-smp.unet-of-library-to-use-deep-supervision" class="nav-link" data-scroll-target="#only-thing-we-need-to-take-care-is-we-must-get-segmetation-model-class-instead-of-smp.unet-of-library-to-use-deep-supervision">Only thing we need to take care is we must get Segmetation Model Class instead of smp.unet of library to use Deep Supervision</a></li>
   </ul></li>
   <li><a href="#output-is-a-list-whose-length-is-same-as-encoder-length-0th-index-is-the-main-index-of-prediction" id="toc-output-is-a-list-whose-length-is-same-as-encoder-length-0th-index-is-the-main-index-of-prediction" class="nav-link" data-scroll-target="#output-is-a-list-whose-length-is-same-as-encoder-length-0th-index-is-the-main-index-of-prediction">Output is a List whose length is same as Encoder length 0’th index is the main Index of Prediction</a></li>
   <li><a href="#implementation-output-of-loss-function" id="toc-implementation-output-of-loss-function" class="nav-link" data-scroll-target="#implementation-output-of-loss-function">Implementation output of Loss Function</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.dev/bibhabasumohapatra/bibhabasumohapatra.github.io/blob/master/posts/2023-03-31-deep-supervised-in-segmentation-models-pytorch.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bibhabasumohapatra/bibhabasumohapatra.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -200,7 +191,6 @@ ga('send', {
 <div class="quarto-title">
 <h1 class="title">Integrating Deep Supervision in Segmentation Models Pytorch (smp)?</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Medical AI</div>
     <div class="quarto-category">segmentation</div>
     <div class="quarto-category">PyTorch</div>
   </div>
@@ -231,28 +221,18 @@ ga('send', {
 </header>
 
 
-<section id="in-this-notebook---i-share-my-understanding-and-my-work-related-to-deep-supervision-in-models-and-loss-function-i-feel-deep-supervision-is-sometimes-useful-in-the-cases-where-the-segmentation-part-bit-hard-to-get-detected." class="level1">
-<h1>In this Notebook - I share my understanding and my Work related to Deep Supervision in Models and Loss Function, I feel Deep Supervision is Sometimes Useful in the cases where the segmentation part bit hard to get detected.</h1>
-<section id="with-my-own-understanding-and-thinking-i-try-to-implement-deep-supervision." class="level4">
-<h4 class="anchored" data-anchor-id="with-my-own-understanding-and-thinking-i-try-to-implement-deep-supervision.">With my own understanding and thinking I try to implement Deep Supervision.</h4>
-</section>
-<section id="as-it-is-conversion-of-smps-unet-code-to-deep-supervision.-.-.-i-might-have-made-mistakes-or-maybe-all-of-my-work-is-a-mess-or-may-be-its-evolutionary-for-kaggle--let-me-know-in-the-comments." class="level4">
-<h4 class="anchored" data-anchor-id="as-it-is-conversion-of-smps-unet-code-to-deep-supervision.-.-.-i-might-have-made-mistakes-or-maybe-all-of-my-work-is-a-mess-or-may-be-its-evolutionary-for-kaggle--let-me-know-in-the-comments.">As it is conversion of SMP’s Unet Code to Deep Supervision. . . I might have made mistakes, or maybe all of my work is a mess or may be its Evolutionary for Kaggle- Let me know in the comments.</h4>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png" class="img-fluid figure-img"></p>
-<figcaption>image.png</figcaption>
-</figure>
-</div>
+<p>In this Notebook - I share my understanding and my Work related to Deep Supervision in Models and Loss Function, I feel Deep Supervision is Sometimes Useful in the cases where the segmentation part bit hard to get detected.</p>
+<ul>
+<li>With my own understanding and thinking I try to implement Deep Supervision.</li>
+<li>As it is conversion of SMP’s Unet Code to Deep Supervision. . . I might have made mistakes, or maybe all of my work is a mess or may be its Evolutionary for Kaggle- Let me know in the comments. <img src="2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png" class="img-fluid" alt="image.png"></li>
+</ul>
 <p>::: {#cell-2 .cell _cell_guid=‘b1076dfc-b9ad-4769-8c92-a6c4dae69d19’ _uuid=‘8f2839f25d086af736a60e9eeb907d3b93b6e0e5’ execution=‘{“iopub.execute_input”:“2023-03-31T15:18:34.645310Z”,“iopub.status.busy”:“2023-03-31T15:18:34.645013Z”,“iopub.status.idle”:“2023-03-31T15:19:08.473332Z”,“shell.execute_reply”:“2023-03-31T15:19:08.471964Z”,“shell.execute_reply.started”:“2023-03-31T15:18:34.645281Z”}’ trusted=‘true’ execution_count=1}</p>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install git<span class="op">+</span>https:<span class="op">//</span>github.com<span class="op">/</span>qubvel<span class="op">/</span>segmentation_models.pytorch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>:::</p>
-</section>
-<section id="here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels." class="level2">
-<h2 class="anchored" data-anchor-id="here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels.">Here directly copied the Decoder code of Segmentation Model PyTorch Unet. And in the class UnetDecoder I simply also appended the outputs in the Decoder and Passed it also through different Segmentation heads according to their Channels.</h2>
-<section id="my-output-basically-goes-from-larger-image-prediction-to-smaller-outputs-of-unet." class="level3">
-<h3 class="anchored" data-anchor-id="my-output-basically-goes-from-larger-image-prediction-to-smaller-outputs-of-unet.">My Output basically goes from Larger Image (prediction) to smaller outputs of unet.</h3>
+<section id="here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels." class="level4">
+<h4 class="anchored" data-anchor-id="here-directly-copied-the-decoder-code-of-segmentation-model-pytorch-unet.-and-in-the-class-unetdecoder-i-simply-also-appended-the-outputs-in-the-decoder-and-passed-it-also-through-different-segmentation-heads-according-to-their-channels.">Here directly copied the Decoder code of Segmentation Model PyTorch Unet. And in the class UnetDecoder I simply also appended the outputs in the Decoder and Passed it also through different Segmentation heads according to their Channels.</h4>
+<p>My Output basically goes from Larger Image (prediction) to smaller outputs of unet.</p>
 <p>example :</p>
 <ul>
 <li>torch.Size([1, 1, 384, 384])</li>
@@ -468,11 +448,9 @@ torch.Size([1, 1, 24, 24])</code></pre>
 </div>
 </div>
 </section>
-</section>
-<section id="this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss." class="level2">
-<h2 class="anchored" data-anchor-id="this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss.">This is My Custom Loss Function that takes output from all Decoder block and interpolates the Ground Truth(Labels/Targets) and calculates the loss.</h2>
-<section id="the-w-weight-is-actually-12index-of-input-according-to-which-more-importance-is-given-to-the-main-prediction-and-smaller-and-smaller-weight-is-given-to-deeper-decoder-outputs." class="level3">
-<h3 class="anchored" data-anchor-id="the-w-weight-is-actually-12index-of-input-according-to-which-more-importance-is-given-to-the-main-prediction-and-smaller-and-smaller-weight-is-given-to-deeper-decoder-outputs.">The “w” weight is actually 1/2^(index of input) according to which more importance is given to the Main Prediction and smaller and smaller weight is given to deeper Decoder outputs.</h3>
+<section id="this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss." class="level4">
+<h4 class="anchored" data-anchor-id="this-is-my-custom-loss-function-that-takes-output-from-all-decoder-block-and-interpolates-the-ground-truthlabelstargets-and-calculates-the-loss.">This is My Custom Loss Function that takes output from all Decoder block and interpolates the Ground Truth(Labels/Targets) and calculates the loss.</h4>
+<p>The “w” weight is actually 1/2^(index of input) according to which more importance is given to the Main Prediction and smaller and smaller weight is given to deeper Decoder outputs.</p>
 <div id="cell-6" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2023-03-31T15:21:33.336639Z&quot;,&quot;iopub.status.busy&quot;:&quot;2023-03-31T15:21:33.336039Z&quot;,&quot;iopub.status.idle&quot;:&quot;2023-03-31T15:21:33.343880Z&quot;,&quot;shell.execute_reply&quot;:&quot;2023-03-31T15:21:33.342574Z&quot;,&quot;shell.execute_reply.started&quot;:&quot;2023-03-31T15:21:33.336601Z&quot;}" data-trusted="true" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Deep_Supervised_Loss(nn.Module):</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
@@ -494,7 +472,6 @@ torch.Size([1, 1, 24, 24])</code></pre>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>            </span>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> loss     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 </section>
 <section id="good-news-is-all-smps-and-timms-pretrained-weight-work-here" class="level2">
 <h2 class="anchored" data-anchor-id="good-news-is-all-smps-and-timms-pretrained-weight-work-here">Good News is all SMP’s and timm’s Pretrained weight work here</h2>
@@ -544,7 +521,6 @@ torch.Size([36, 1, 16, 16])</code></pre>
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

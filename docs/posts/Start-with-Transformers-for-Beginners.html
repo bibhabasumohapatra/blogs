@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2022-06-04">
+<meta name="description" content="We Learnt — What is Attention, Encoder + Decoder in RNNs, Attention in RNNs. Now we get to what is Self -Attention?">
 
-<title>Bibhabasu’s Blog Page – Bibhabasu's Blogs</title>
+<title>Start with Transformers for Beginners – Bibhabasu’s Blogs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,23 +25,21 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<link href="./posts/favicon.ico" rel="icon">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-07ba0ad10f5680c660e360ac31d2f3b6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8b864f0777c60eecff11d75b6b2e1175.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9be891b192d35d711eb04c7a405c9051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-ae56d472c5791958f14786b4508e6718.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../posts/favicon.ico" rel="icon">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-07ba0ad10f5680c660e360ac31d2f3b6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8b864f0777c60eecff11d75b6b2e1175.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-9be891b192d35d711eb04c7a405c9051.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-ae56d472c5791958f14786b4508e6718.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -55,35 +55,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 
 <script type="text/javascript">
 
@@ -129,14 +100,20 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Bibhabasu's Blogs" href="blog.xml" data-external="1"><meta property="og:title" content="Bibhabasu’s Blog Page – Bibhabasu’s Blogs">
-<meta property="og:description" content="Blog page of Bibhabasu Mohapatra.">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Start with Transformers for Beginners – Bibhabasu’s Blogs">
+<meta property="og:description" content="We Learnt — What is Attention, Encoder + Decoder in RNNs, Attention in RNNs. Now we get to what is Self -Attention?">
+<meta property="og:image" content="https://bibhabasumohapatra.github.io/posts/2022-06-04-Start-with-Transformers-for-Beginners_files/figure-html/cell-3-1-image.png">
 <meta property="og:site_name" content="Bibhabasu's Blogs">
-<meta name="twitter:title" content="Bibhabasu’s Blog Page – Bibhabasu’s Blogs">
-<meta name="twitter:description" content="Blog page of Bibhabasu Mohapatra.">
+<meta property="og:image:height" content="518">
+<meta property="og:image:width" content="828">
+<meta name="twitter:title" content="Start with Transformers for Beginners – Bibhabasu’s Blogs">
+<meta name="twitter:description" content="We Learnt — What is Attention, Encoder + Decoder in RNNs, Attention in RNNs. Now we get to what is Self -Attention?">
+<meta name="twitter:image" content="https://bibhabasumohapatra.github.io/posts/2022-06-04-Start-with-Transformers-for-Beginners_files/figure-html/cell-3-1-image.png">
 <meta name="twitter:creator" content="@RisingSayak">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="518">
+<meta name="twitter:image-width" content="828">
 </head>
 
 <body class="nav-fixed">
@@ -146,7 +123,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Bibhabasu’s Blogs</span>
     </a>
   </div>
@@ -194,14 +171,29 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Bibhabasu’s Blog Page</h1>
-</div>
+<h1 class="title">Start with Transformers for Beginners</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">NLP</div>
+    <div class="quarto-category">Transformer</div>
+  </div>
+  </div>
 
+<div>
+  <div class="description">
+    We Learnt — What is Attention, Encoder + Decoder in RNNs, Attention in RNNs. Now we get to what is Self -Attention?
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 4, 2022</p>
+    </div>
+  </div>
   
     
   </div>
@@ -211,197 +203,49 @@ window.Quarto = {
 </header>
 
 
-<p>Hi there 👋 This is my Blog Page - Though I wanted to create my personal site using Nextjs or React only, but some how I love blogging on quarto . . . now using sayak’s already available (which was used for my previous site, got back to blog on quarto) my site - <a href="https://bibhabasu-mohapatra.space">bibhabasu-mohapatra.space</a></p>
-<p>I am Bibhabasu Mohapatra. Currently working as a Data Scientist at Microsoft, previously working as an Engineer(Computer Vision) at Aira Matrix.</p>
-<p>I’m particularly interested and want to work in topics related to self-supervised learning, multi-modal learning, and Representations <br><br></p>
-<p>Open for Research Opportunities in Academia. for more details.</p>
-<hr>
+<p>copying to my new blog page from :https://medium.com/<span class="citation" data-cites="bibhabasumohapatrabm/start-with-transformers-for-beginners-2-5040c2acab7b">@bibhabasumohapatrabm/start-with-transformers-for-beginners-2-5040c2acab7b</span></p>
+<p>Link to the previous blog — https://medium.com/<span class="citation" data-cites="bibhabasumohapatrabm/start-with-transformers-for-beginners-54e147ca5a7c">@bibhabasumohapatrabm/start-with-transformers-for-beginners-54e147ca5a7c</span></p>
+<p>Attention Mechanism fails as the RNN computations are inherently sequential and not parallel. In contrast, that is not the case with Transformers, So a new concept is introduced, instead of relying on the recurrence, we use special attention called self-attention.</p>
+<p>“Attention in RNNs refers to the computing relevance of each encoder’s hidden state to the decoder’s hidden state. In RNNs we use the fixed embedding for each token.</p>
+<p>Where “self” refers to the fact that these weights are computed for all hidden states, we use the sequence to compute the weighted average of each embedding.” — NLP with Transformers.</p>
+<p>Summarizing in simple words:</p>
+<p>So basically, in ATTENTION it’s like, we have to encode a vector of fixed length and wait for the corresponding output vector and repeat the process and at the same time input the outputs of the corresponding inputs and give that to the other time-stamped inputs to use attention.</p>
+<p>Where “ SELF “ ATTENTION helps us to get outputs and attention simultaneously, weights are different for each input embedding -</p>
+<p><span class="math display">\[\bar{x}_i = \sum w_{ij} x_i\]</span></p>
+<p>Q → What are contextualized embeddings?</p>
+<p>Example: ”Time flies like an arrow” → flies here is referred to as a verb.</p>
+<p>rather than insects.</p>
+<p>contextual embeddings:</p>
+<p>We use the representation of the word, that fits the context i.e.&nbsp;the words neighboring the word “flies”, “Time” and “Arrow” tells us that “flies” is Verb. Hence, providing more weight Wij to the embeddings of “Time” and “Arrow” will be a better choice, and embeddings generated this way are called Contextualized Embeddings.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="2022-06-04-Start-with-Transformers-for-Beginners_files/figure-html/cell-3-1-image.png" class="img-fluid figure-img"></p>
+<figcaption>image.png</figcaption>
+</figure>
+</div>
+<p>In the Paper “Attention is all you need”</p>
+<p>We were introduced to the Scaled- dot product Attention:</p>
+<p>Scaled-dot Attention is one of the ways to implement self-attention layers -</p>
+<p>we have three vectors query, key, and value. a good example in the Book NLP with transformers makes it easy to understand what is a query, key, and value. When we go to the Supermarket, we have a dish recipe and the ingredients in the recipe are queries. — As you scan through shelves, you will check every label. So labels are key. — When you have while scanning, you take that item<strong>. So the item is the value.</strong> 2. We calculate how much query and key relate/are similar to each other, we do this by dot product, for more about similarity and dot-product → go to this blog by me. we gt Q.K (dot product) → these dot products are called attention scores, So if there are N inputs then there is an NxN matrix of Attention scores</p>
+<ol start="3" type="1">
+<li>To normalize large values, attention scores are multiplied by a scaling factor to normalize and then normalized with a softmax to ensure all the column values sum to 1. We get, attention weights Wij</li>
+</ol>
+<p><span class="math display">\[w_{ij} = \text{Normalized}(Q \cdot K)\]</span></p>
+<ol start="4" type="1">
+<li>Once we get Attention to weights,</li>
+</ol>
+<p>we multiply them by value vector (v_1, v_2, , v_N). So we have an updated embedding <span class="math display">\[
+\bar{x}_i = \sum w_{ij} x_j
+\]</span></p>
+<p>How to implement what we learned? How to do it from scratch? this is in the 3rd chapter of Natural Language Processing with Transformers with Hugging Face.</p>
+<p>I will cover it in the next blog . . . stay with me!!!!</p>
+<p>RESOURCES : (treat it as notes from CS224n and mentioned book )</p>
+<p>→ Stanford Youtube CS224n and slides</p>
+<p>→ Natural Language Processing with Transformers with Hugging Face Chapter 3</p>
 
 
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="TUwgZm91bmRhdGlvbixiYXllc2lhbixQeVRvcmNo" data-listing-date-sort="1713205800000" data-listing-file-modified-sort="1731559158008" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="749">
-<div class="thumbnail">
-<p><a href="./posts/linear-regression-from-scratch.html" class="no-external"></a></p><a href="./posts/linear-regression-from-scratch.html" class="no-external">
-<p class="card-img-top"><img src="posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-1-1-image.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/linear-regression-from-scratch.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/linear-regression-from-scratch.html" class="no-external">Polynomial Curve Fitting and doing Linear Regression from Scratch (!! Four ways to Solve a Least Squares Problem)</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/linear-regression-from-scratch.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/linear-regression-from-scratch.html" class="no-external">Linear Regression from PRML Example 1 from Chapter 1 Introdcution also inspired from gilbert strang’s lecture on Four ways to Solve a Least Squares Problem</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/linear-regression-from-scratch.html" class="no-external">
-<div class="listing-date">
-Apr 16, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="VHJhbnNmb3JtZXIsRGVlcCBMZWFybmluZyxQeVRvcmNo" data-listing-date-sort="1711650600000" data-listing-file-modified-sort="1731562898606" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="78">
-<div class="thumbnail">
-<p><a href="./posts/visualizing-vision-transformers-timm.html" class="no-external"></a></p><a href="./posts/visualizing-vision-transformers-timm.html" class="no-external">
-<p class="card-img-top"><img src="posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-6-output-1.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/visualizing-vision-transformers-timm.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/visualizing-vision-transformers-timm.html" class="no-external">Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks!!</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/visualizing-vision-transformers-timm.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/visualizing-vision-transformers-timm.html" class="no-external">Tutorial code of how I Visualize Attention Maps and Feature Maps (Salieancy Maps) in PyTorch timm using PyTorch Hooks as timm does not provide attention intermediates</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/visualizing-vision-transformers-timm.html" class="no-external">
-<div class="listing-date">
-Mar 29, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="ZGVlcCBsZWFybmluZyxQeVRvcmNo" data-listing-date-sort="1691951400000" data-listing-file-modified-sort="1731562896996" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="143">
-<div class="thumbnail">
-<p><a href="./posts/understanding-how-ema-works.html" class="no-external"></a></p><a href="./posts/understanding-how-ema-works.html" class="no-external">
-<p class="card-img-top"><img src="posts/2023-08-14-understanding-how-ema-works_files/figure-html/4c7cd254-1-5d710aa5-97fa-4545-abeb-3f2102a18726.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/understanding-how-ema-works.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/understanding-how-ema-works.html" class="no-external">Understanding how EMA works?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/understanding-how-ema-works.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/understanding-how-ema-works.html" class="no-external">Understanding how EMA works with an simulation of a toy model with toy weights</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/understanding-how-ema-works.html" class="no-external">
-<div class="listing-date">
-Aug 14, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="c2VnbWVudGF0aW9uLFB5VG9yY2g=" data-listing-date-sort="1680201000000" data-listing-file-modified-sort="1731562904266" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="237">
-<div class="thumbnail">
-<p><a href="./posts/deep-supervised-in-segmentation-models-pytorch.html" class="no-external"></a></p><a href="./posts/deep-supervised-in-segmentation-models-pytorch.html" class="no-external">
-<p class="card-img-top"><img src="posts/2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png" alt="image.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/deep-supervised-in-segmentation-models-pytorch.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/deep-supervised-in-segmentation-models-pytorch.html" class="no-external">Integrating Deep Supervision in Segmentation Models Pytorch (smp)?</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/deep-supervised-in-segmentation-models-pytorch.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/deep-supervised-in-segmentation-models-pytorch.html" class="no-external">Tutorial code of how I integrated Deep Supervision Loss generation setup with Segmentation Models PyTorch Framework, which could be Directly us with Minimal changes</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/deep-supervised-in-segmentation-models-pytorch.html" class="no-external">
-<div class="listing-date">
-Mar 31, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="S2FnZ2xlLEltYWdlIFByb2Nlc3Npbmc=" data-listing-date-sort="1656786600000" data-listing-file-modified-sort="1731562907576" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="188">
-<div class="thumbnail">
-<p><a href="./posts/thresholding-using-scikit-image.html" class="no-external"></a></p><a href="./posts/thresholding-using-scikit-image.html" class="no-external">
-<p class="card-img-top"><img src="posts/2022-07-03-thresholding-using-scikit-image_files/figure-html/cell-1-1-image.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/thresholding-using-scikit-image.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/thresholding-using-scikit-image.html" class="no-external">Thresholding using scikit image (part of my kaggle submission code)</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/thresholding-using-scikit-image.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/thresholding-using-scikit-image.html" class="no-external">When the noise gets growing, you should get out of the noise . . . to get a clear picture of what’s happening in your Image.</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/thresholding-using-scikit-image.html" class="no-external">
-<div class="listing-date">
-Jul 3, 2022
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="TkxQLFRyYW5zZm9ybWVy" data-listing-date-sort="1654281000000" data-listing-file-modified-sort="1731562946556" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="545">
-<div class="thumbnail">
-<p><a href="./posts/Start-with-Transformers-for-Beginners.html" class="no-external"></a></p><a href="./posts/Start-with-Transformers-for-Beginners.html" class="no-external">
-<p class="card-img-top"><img src="posts/2022-06-04-Start-with-Transformers-for-Beginners_files/figure-html/cell-3-1-image.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/Start-with-Transformers-for-Beginners.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/Start-with-Transformers-for-Beginners.html" class="no-external">Start with Transformers for Beginners</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/Start-with-Transformers-for-Beginners.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/Start-with-Transformers-for-Beginners.html" class="no-external">We Learnt — What is Attention, Encoder + Decoder in RNNs, Attention in RNNs. Now we get to what is Self -Attention?</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/Start-with-Transformers-for-Beginners.html" class="no-external">
-<div class="listing-date">
-Jun 4, 2022
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="TkxQ" data-listing-date-sort="1643740200000" data-listing-file-modified-sort="1731562911426" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="270">
-<div class="thumbnail">
-<p><a href="./posts/language is-not-a-formal-system-language-is-glorious-chaos.html" class="no-external"></a></p><a href="./posts/language is-not-a-formal-system-language-is-glorious-chaos.html" class="no-external">
-<p class="card-img-top"><img src="posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-1-1-image.png"  class="thumbnail-image card-img"/></p>
-</a><p><a href="./posts/language is-not-a-formal-system-language-is-glorious-chaos.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/language is-not-a-formal-system-language-is-glorious-chaos.html" class="no-external">Language is Not a formal System, Language is glorious Chaos - Chris Manning (cs224n)</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/language is-not-a-formal-system-language-is-glorious-chaos.html" class="no-external"></a>
-</div>
-<div class="listing-description">
-<a href="./posts/language is-not-a-formal-system-language-is-glorious-chaos.html" class="no-external">following the course Stanford CS224n and more . . . Take it as notes or tutorial, all credits to CS224n for this content I just mixed my understanding with my previous readings and intutions</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/language is-not-a-formal-system-language-is-glorious-chaos.html" class="no-external">
-<div class="listing-date">
-Feb 2, 2022
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -971,4 +815,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/bibhabasumohapatra/bibhabasumohapatra.github.io/edit/master/blog.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bibhabasumohapatra/bibhabasumohapatra.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.dev/bibhabasumohapatra/bibhabasumohapatra.github.io/blob/master/posts/2022-06-04-Start-with-Transformers-for-Beginners.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bibhabasumohapatra/bibhabasumohapatra.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

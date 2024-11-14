@@ -9,7 +9,7 @@
 <meta name="dcterms.date" content="2024-03-29">
 <meta name="description" content="Tutorial code of how I Visualize Attention Maps and Feature Maps (Salieancy Maps) in PyTorch timm using PyTorch Hooks as timm does not provide attention intermediates">
 
-<title>Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks? – Bibhabasu’s Blogs</title>
+<title>Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks!! – Bibhabasu’s Blogs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -110,13 +110,13 @@ ga('send', {
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks? – Bibhabasu’s Blogs">
+<meta property="og:title" content="Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks!! – Bibhabasu’s Blogs">
 <meta property="og:description" content="Tutorial code of how I Visualize Attention Maps and Feature Maps (Salieancy Maps) in PyTorch timm using PyTorch Hooks as timm does not provide attention intermediates">
 <meta property="og:image" content="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-6-output-1.png">
 <meta property="og:site_name" content="Bibhabasu's Blogs">
 <meta property="og:image:height" content="469">
 <meta property="og:image:width" content="505">
-<meta name="twitter:title" content="Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks? – Bibhabasu’s Blogs">
+<meta name="twitter:title" content="Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks!! – Bibhabasu’s Blogs">
 <meta name="twitter:description" content="Tutorial code of how I Visualize Attention Maps and Feature Maps (Salieancy Maps) in PyTorch timm using PyTorch Hooks as timm does not provide attention intermediates">
 <meta name="twitter:image" content="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-6-output-1.png">
 <meta name="twitter:creator" content="@RisingSayak">
@@ -180,12 +180,11 @@ ga('send', {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks?</h1>
+<h1 class="title">Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks!!</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">Vision Transformer</div>
+    <div class="quarto-category">Transformer</div>
     <div class="quarto-category">Deep Learning</div>
     <div class="quarto-category">PyTorch</div>
-    <div class="quarto-category">Timm</div>
   </div>
   </div>
 
@@ -214,7 +213,10 @@ ga('send', {
 </header>
 
 
-<div id="7fd97189" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-03-29T09:22:30.157544Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-03-29T09:22:30.157240Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-03-29T09:22:35.727608Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-03-29T09:22:35.726822Z&quot;}" data-papermill="{&quot;duration&quot;:5.5794,&quot;end_time&quot;:&quot;2024-03-29T09:22:35.729895&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2024-03-29T09:22:30.150495&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]" data-execution_count="1">
+<p>This Blogs is a Part 2 of my Vision Transformer From Scratch Series, where I implement ViT from scratch. This Blog explores more on the Exaplainibility and visualizing the Saliency maps of any Transformer based Vision Model, It also delves into the concept of PyTorch Hooks which is used here to get the attention outputs from timm models. Where my basic understanding comes from Official Pytorch Hooks Documentation.</p>
+<p>also credits : - https://github.com/huggingface/pytorch-image-models/blob/main/timm/models/vision_transformer.py</p>
+<p>also available as youtube Video: - https://youtu.be/7q3NGMkEtjI?si=zRnBBIo5LEwrQM7e</p>
+<div id="7fd97189" class="cell" data-execution="{&quot;iopub.execute_input&quot;:&quot;2024-03-29T09:22:30.157544Z&quot;,&quot;iopub.status.busy&quot;:&quot;2024-03-29T09:22:30.157240Z&quot;,&quot;iopub.status.idle&quot;:&quot;2024-03-29T09:22:35.727608Z&quot;,&quot;shell.execute_reply&quot;:&quot;2024-03-29T09:22:35.726822Z&quot;}" data-papermill="{&quot;duration&quot;:5.5794,&quot;end_time&quot;:&quot;2024-03-29T09:22:35.729895&quot;,&quot;exception&quot;:false,&quot;start_time&quot;:&quot;2024-03-29T09:22:30.150495&quot;,&quot;status&quot;:&quot;completed&quot;}" data-tags="[]">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>

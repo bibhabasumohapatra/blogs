@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-04-16">
-<meta name="description" content="Linear Regression from PRML Example 1 from Chapter 1 Introdcution also inspired from gilbert strang’s lecture on Four ways to Solve a Least Squares Problem">
+<meta name="dcterms.date" content="2022-07-03">
+<meta name="description" content="When the noise gets growing, you should get out of the noise . . . to get a clear picture of what’s happening in your Image.">
 
-<title>Polynomial Curve Fitting and doing Linear Regression from Scratch (!! Four ways to Solve a Least Squares Problem) – Bibhabasu’s Blogs</title>
+<title>Thresholding using scikit image (part of my kaggle submission code) – Bibhabasu’s Blogs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,50 +104,21 @@ ga('send', {
 });
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Polynomial Curve Fitting and doing Linear Regression from Scratch (!! Four ways to Solve a Least Squares Problem) – Bibhabasu’s Blogs">
-<meta property="og:description" content="Linear Regression from PRML Example 1 from Chapter 1 Introdcution also inspired from gilbert strang’s lecture on Four ways to Solve a Least Squares Problem">
-<meta property="og:image" content="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-1-1-image.png">
+<meta property="og:title" content="Thresholding using scikit image (part of my kaggle submission code) – Bibhabasu’s Blogs">
+<meta property="og:description" content="When the noise gets growing, you should get out of the noise . . . to get a clear picture of what’s happening in your Image.">
+<meta property="og:image" content="https://bibhabasumohapatra.github.io/posts/2022-07-03-thresholding-using-scikit-image_files/figure-html/cell-1-1-image.png">
 <meta property="og:site_name" content="Bibhabasu's Blogs">
-<meta property="og:image:height" content="401">
-<meta property="og:image:width" content="924">
-<meta name="twitter:title" content="Polynomial Curve Fitting and doing Linear Regression from Scratch (!! Four ways to Solve a Least Squares Problem) – Bibhabasu’s Blogs">
-<meta name="twitter:description" content="Linear Regression from PRML Example 1 from Chapter 1 Introdcution also inspired from gilbert strang’s lecture on Four ways to Solve a Least Squares Problem">
-<meta name="twitter:image" content="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-1-1-image.png">
+<meta property="og:image:height" content="1100">
+<meta property="og:image:width" content="1100">
+<meta name="twitter:title" content="Thresholding using scikit image (part of my kaggle submission code) – Bibhabasu’s Blogs">
+<meta name="twitter:description" content="When the noise gets growing, you should get out of the noise . . . to get a clear picture of what’s happening in your Image.">
+<meta name="twitter:image" content="https://bibhabasumohapatra.github.io/posts/2022-07-03-thresholding-using-scikit-image_files/figure-html/cell-1-1-image.png">
 <meta name="twitter:creator" content="@RisingSayak">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image-height" content="401">
-<meta name="twitter:image-width" content="924">
+<meta name="twitter:image-height" content="1100">
+<meta name="twitter:image-width" content="1100">
 </head>
 
 <body class="nav-fixed">
@@ -197,45 +168,24 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#example-polynomial-curve-fitting" id="toc-example-polynomial-curve-fitting" class="nav-link active" data-scroll-target="#example-polynomial-curve-fitting">1.1. Example: Polynomial Curve Fitting</a></li>
-  <li><a href="#plot-training-data" id="toc-plot-training-data" class="nav-link" data-scroll-target="#plot-training-data">plot training data</a></li>
-  <li><a href="#fit-the-linear-model-on-training-data" id="toc-fit-the-linear-model-on-training-data" class="nav-link" data-scroll-target="#fit-the-linear-model-on-training-data">Fit the Linear model on Training data</a>
-  <ul class="collapse">
-  <li><a href="#step-1-expand-the-expression" id="toc-step-1-expand-the-expression" class="nav-link" data-scroll-target="#step-1-expand-the-expression">Step 1: Expand the expression</a></li>
-  <li><a href="#step-2-minimize-the-expression-with-respect-to-w" id="toc-step-2-minimize-the-expression-with-respect-to-w" class="nav-link" data-scroll-target="#step-2-minimize-the-expression-with-respect-to-w">Step 2: Minimize the expression with respect to ( W )</a></li>
-  <li><a href="#final-answer" id="toc-final-answer" class="nav-link" data-scroll-target="#final-answer">Final Answer</a></li>
-  </ul></li>
-  <li><a href="#example-polynomial-curve-fitting-with-regularization" id="toc-example-polynomial-curve-fitting-with-regularization" class="nav-link" data-scroll-target="#example-polynomial-curve-fitting-with-regularization">1.1. Example: Polynomial Curve Fitting with Regularization</a>
-  <ul class="collapse">
-  <li><a href="#objective-function" id="toc-objective-function" class="nav-link" data-scroll-target="#objective-function">Objective Function</a></li>
-  <li><a href="#step-1-expand-the-expression-1" id="toc-step-1-expand-the-expression-1" class="nav-link" data-scroll-target="#step-1-expand-the-expression-1">Step 1: Expand the Expression</a></li>
-  <li><a href="#step-2-minimize-the-expression-with-respect-to-w-1" id="toc-step-2-minimize-the-expression-with-respect-to-w-1" class="nav-link" data-scroll-target="#step-2-minimize-the-expression-with-respect-to-w-1">Step 2: Minimize the Expression with Respect to ( W )</a></li>
-  <li><a href="#final-answer-1" id="toc-final-answer-1" class="nav-link" data-scroll-target="#final-answer-1">Final Answer</a></li>
-  </ul></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.dev/bibhabasumohapatra/bibhabasumohapatra.github.io/blob/master/posts/2024-04-16-linear-regression-from-scratch.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bibhabasumohapatra/bibhabasumohapatra.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Polynomial Curve Fitting and doing Linear Regression from Scratch (!! Four ways to Solve a Least Squares Problem)</h1>
+<h1 class="title">Thresholding using scikit image (part of my kaggle submission code)</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">ML foundation</div>
-    <div class="quarto-category">bayesian</div>
-    <div class="quarto-category">PyTorch</div>
+    <div class="quarto-category">Kaggle</div>
+    <div class="quarto-category">Image Processing</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Linear Regression from PRML Example 1 from Chapter 1 Introdcution also inspired from gilbert strang’s lecture on Four ways to Solve a Least Squares Problem
+    When the noise gets growing, you should get out of the noise . . . to get a clear picture of what’s happening in your Image.
   </div>
 </div>
 
@@ -246,7 +196,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 16, 2024</p>
+      <p class="date">July 3, 2022</p>
     </div>
   </div>
   
@@ -258,203 +208,34 @@ window.Quarto = {
 </header>
 
 
+<section id="when-i-attempted-segmentation-problems-and-generated-masks-i-faced-a-significant-problem-with-thresholding-parameters.-if-you-have-a-mask-or-image-with-a-very-sparse-pixel-value-all-over-then-you-wont-be-able-to-see-the-real-image-rather-it-acts-like-a-secret-note-which-is-only-visible-when-you-show-it-in-sunlight.i-searched-for-a-way-in-my-kaggle-competition-submission-to-convert-a-mask-to-a-binary-mask-without-randomly-setting-the-threshold.-link-to-the-80th-place-notebook-here---httpswww.kaggle.comcodenishantbhansalirank-80th-train-coat-hubmap-final-for-lb-part-3" class="level4">
+<h4 class="anchored" data-anchor-id="when-i-attempted-segmentation-problems-and-generated-masks-i-faced-a-significant-problem-with-thresholding-parameters.-if-you-have-a-mask-or-image-with-a-very-sparse-pixel-value-all-over-then-you-wont-be-able-to-see-the-real-image-rather-it-acts-like-a-secret-note-which-is-only-visible-when-you-show-it-in-sunlight.i-searched-for-a-way-in-my-kaggle-competition-submission-to-convert-a-mask-to-a-binary-mask-without-randomly-setting-the-threshold.-link-to-the-80th-place-notebook-here---httpswww.kaggle.comcodenishantbhansalirank-80th-train-coat-hubmap-final-for-lb-part-3">When I attempted segmentation problems and generated masks I faced a significant problem with thresholding parameters. If you have a mask or image with a very sparse pixel value all over then you won’t be able to see the real image rather it acts like a secret note which is only visible when you show it in sunlight.I searched for a way in my Kaggle Competition submission to convert a mask to a binary mask without randomly setting the threshold. lINK TO THE 80TH Place Notebook Here - https://www.kaggle.com/code/nishantbhansali/rank-80th-train-coat-hubmap-final-for-lb-part-3</h4>
+<p>my mask looked like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="2024-04-16-linear-regression-from-scratch_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
+<p><img src="2022-07-03-thresholding-using-scikit-image_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
 <figcaption>image.png</figcaption>
 </figure>
 </div>
-<p>This blog is a reading follow up of the book Pattern Recognition in Machine Learning by Chris Bishop. In his first example in the chapter he explores curve fitting. There are lot of equations directly at you, and if you understand it easy and beautiful. I come from more of a sklearn, and pytorch setting the world of Machine learning is kind of black box who just use pytorch nn bindings or sklearn linear regresion or xgboost for work. But the the Introduction to Gilbert strangs lecture or book like PRML will clean your mind and will act as detox for your brain which is filled with hundreds of abstraction and libraries. And the detox from hundreds of libraries will make you understand the TRUE WORLD made by us humans. While implementinhg this I realised that we just nead to find Pseudo-Inverses of Weight Matrix, which would also scale to test data. . . its just not all about fancy SGD optimization rather it can be about just finding Inverses of a Matrix to solve your world problems</p>
-<section id="example-polynomial-curve-fitting" class="level3">
-<h3 class="anchored" data-anchor-id="example-polynomial-curve-fitting">1.1. Example: Polynomial Curve Fitting</h3>
-<div id="cell-4" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I was randomly trying out thresholds like 0.5, 0.70, . . . 0.14 . . . and it is almost impossible to do the same for every experiment. Rather I searched for a how-to convert masks to binary masks with an automated threshold. Then I stumbled upon thresholding on the scikit image and the tutorial is very simple to use any thresholding. Link &gt;&gt; from skimage.filters import threshold_minimum, threshold_isodata, threshold_li, threshold_mean, threshold_otsu</p>
+<p>I tried all of them for my different experiments. And each of them had a different result. My final submission looked like this, which can smoothen a bit more this gave me a top leaderboard accuracy like a 0.78 Dice Score on LeaderBoard here.</p>
+<p>More on different types of thresholding techniques :</p>
+<p>The thresholding technique’s basic idea is —</p>
+<ol type="1">
+<li>to find a threshold by performing some operation on the Image i.e.&nbsp;threshold = Function(Image)</li>
+<li>Binary_Image = Image &gt; threshold</li>
+</ol>
+<div id="cell-4" class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> transform.resize(mask, (df_valid.img_height, df_valid.img_width))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> filters.threshold_mean(mask) <span class="co">#threshold_isodata, threshold_otsu, threshold_li, threshold_mean etc.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> mask <span class="op">&gt;</span> threshold</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> mask.astype(np.int8)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> torch.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">20</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> torch.sin(<span class="dv">2</span><span class="op">*</span><span class="fl">3.14</span><span class="op">*</span>x_train) <span class="op">+</span> torch.normal(<span class="dv">0</span>,<span class="fl">0.2</span>,x_train.shape,) <span class="co">## added noise as per the book</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">### testing data</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>x_test <span class="op">=</span> torch.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">200</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> torch.sin(<span class="dv">2</span><span class="op">*</span><span class="fl">3.14</span><span class="op">*</span>x_test) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="plot-training-data" class="level2">
-<h2 class="anchored" data-anchor-id="plot-training-data">plot training data</h2>
-<div id="cell-7" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_train, y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-04-16-linear-regression-from-scratch_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-<section id="fit-the-linear-model-on-training-data" class="level2">
-<h2 class="anchored" data-anchor-id="fit-the-linear-model-on-training-data">Fit the Linear model on Training data</h2>
-<section id="part-below-directly-comes-from-gilbert-strangs-lectures-at-mit-lecture-09---four-ways-to-solve-least-square-problemshttpsyoutu.bezuu57q3cfousiwsyz5c10c4akisjd-believe-me-world-is-just-filled-with-least-square-problems-everywhere" class="level4">
-<h4 class="anchored" data-anchor-id="part-below-directly-comes-from-gilbert-strangs-lectures-at-mit-lecture-09---four-ways-to-solve-least-square-problemshttpsyoutu.bezuu57q3cfousiwsyz5c10c4akisjd-believe-me-world-is-just-filled-with-least-square-problems-everywhere">Part below directly comes from Gilbert Strang’s Lectures at MIT (Lecture 09 - Four Ways to Solve Least Square Problems)[https://youtu.be/ZUU57Q3CFOU?si=WSYz5c10C4AKISjD] believe me world is just filled with Least Square Problems everywhere</h4>
-<p>To solve for the optimal weight matrix ( W ), given the expression ( (XW - Y)^T (XW - Y) ), we can proceed by first expanding the expression and then minimizing it with respect to ( W ).</p>
-</section>
-<section id="step-1-expand-the-expression" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-expand-the-expression">Step 1: Expand the expression</h3>
-<p>Given: <span class="math display">\[
-L(W) = (XW - Y)^T (XW - Y)
-\]</span></p>
-<p>Expanding this: <span class="math display">\[
-L(W) = (XW)^T(XW) - (XW)^T Y - Y^T (XW) + Y^T Y
-\]</span></p>
-<p>Simplifying further: <span class="math display">\[
-L(W) = W^T X^T XW - W^T X^T Y - Y^T XW + Y^T Y
-\]</span></p>
-<p>Since ( W^T X^T Y ) and ( Y^T XW ) are scalars, they are equal. Therefore: <span class="math display">\[
-L(W) = W^T X^T XW - 2W^T X^T Y + Y^T Y
-\]</span></p>
-</section>
-<section id="step-2-minimize-the-expression-with-respect-to-w" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-minimize-the-expression-with-respect-to-w">Step 2: Minimize the expression with respect to ( W )</h3>
-<p>To find the optimal ( W ), take the derivative of ( L(W) ) with respect to ( W ) and set it to zero: <span class="math display">\[
-\frac{\partial L(W)}{\partial W} = 2X^T XW - 2X^T Y = 0
-\]</span></p>
-<p>Simplifying: <span class="math display">\[
-X^T XW = X^T Y
-\]</span></p>
-<p>Finally, solve for ( W ): <span class="math display">\[
-W = (X^T X)^{-1} X^T Y
-\]</span></p>
-</section>
-<section id="final-answer" class="level3">
-<h3 class="anchored" data-anchor-id="final-answer">Final Answer</h3>
-<p>The optimal weight matrix ( W ) is given by: <span class="math display">\[
-\boxed{W = (X^T X)^{-1} X^T Y}
-\]</span></p>
-<p>This result is commonly known as the <strong>Normal Equation</strong> in linear regression.</p>
-<div id="cell-11" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>powers <span class="op">=</span> torch.arange(<span class="dv">5</span>).<span class="bu">float</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x_poly <span class="op">=</span> x_train.unsqueeze(<span class="op">-</span><span class="dv">1</span>).<span class="bu">pow</span>(powers) <span class="co">## NxM</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> torch.linalg.pinv(x_poly) <span class="op">@</span> y_train.view(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>) <span class="co">## MxN * Nx1 == Mx1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-12" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>w.shape, x_test.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="16">
-<pre><code>(torch.Size([5, 1]), torch.Size([200]))</code></pre>
-</div>
-</div>
-<div id="cell-13" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x_poly_test <span class="op">=</span> x_test.unsqueeze(<span class="op">-</span><span class="dv">1</span>).<span class="bu">pow</span>(powers)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> x_poly_test <span class="op">@</span> w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="cell-14" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(x_train, y_train, facecolor<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"b"</span>, s<span class="op">=</span><span class="dv">50</span>, label<span class="op">=</span><span class="st">"training data"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.plot(x_test, y_test, c<span class="op">=</span><span class="st">"g"</span>, label<span class="op">=</span><span class="st">"$\sin(2\pi x)$"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-04-16-linear-regression-from-scratch_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="cell-15" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, degree <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">9</span>]):</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    powers <span class="op">=</span> torch.arange(degree).<span class="bu">float</span>()</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    x_poly <span class="op">=</span> x_train.unsqueeze(<span class="op">-</span><span class="dv">1</span>).<span class="bu">pow</span>(powers) <span class="co">## NxM</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> torch.linalg.pinv(x_poly) <span class="op">@</span> y_train.view(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>) <span class="co">## MxN * Nx1 == Mx1</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    x_poly_test <span class="op">=</span> x_test.unsqueeze(<span class="op">-</span><span class="dv">1</span>).<span class="bu">pow</span>(powers)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> x_poly_test <span class="op">@</span> w    </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    plt.scatter(x_train, y_train, facecolor<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"b"</span>, s<span class="op">=</span><span class="dv">50</span>, label<span class="op">=</span><span class="st">"training data"</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_test, y_test, c<span class="op">=</span><span class="st">"g"</span>, label<span class="op">=</span><span class="st">"$\sin(2\pi x)$"</span>)</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_test, y_pred, c<span class="op">=</span><span class="st">"r"</span>, label<span class="op">=</span><span class="st">"fitting"</span>)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    plt.annotate(<span class="st">"M=</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(degree), xy<span class="op">=</span>(<span class="op">-</span><span class="fl">0.15</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-04-16-linear-regression-from-scratch_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="example-polynomial-curve-fitting-with-regularization" class="level2">
-<h2 class="anchored" data-anchor-id="example-polynomial-curve-fitting-with-regularization">1.1. Example: Polynomial Curve Fitting with Regularization</h2>
-<p>One technique that is often used to control the over-fitting phenomenon in such cases is that of regularization, which involves adding a penalty term to the error function in order to discourage the coefficients from reaching large values. The simplest such penalty term takes the form of a sum of squares of all of the coefficients, leading to a modified error function of the form.</p>
-<p>Techniques such as this are known in the statistics literature as shrinkage methods because they reduce the value of the coefficients. The particular case of a quadratic regularizer is called ridge regression (Hoerl and Kennard, 1970). In the context of neural networks, this approach is known as weight decay</p>
-<p>To solve for the optimal weight matrix ( W ) given the objective function ( (XW - Y)^T (XW - Y) + W^T W ), follow these steps:</p>
-<section id="objective-function" class="level3">
-<h3 class="anchored" data-anchor-id="objective-function">Objective Function</h3>
-<p>The objective function is: <span class="math display">\[
-L(W) = (XW - Y)^T (XW - Y) + W^T W
-\]</span></p>
-</section>
-<section id="step-1-expand-the-expression-1" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-expand-the-expression-1">Step 1: Expand the Expression</h3>
-<p>Expanding ( (XW - Y)^T (XW - Y) ): <span class="math display">\[
-(XW - Y)^T (XW - Y) = (XW)^T XW - (XW)^T Y - Y^T XW + Y^T Y
-\]</span></p>
-<p>Since ( (XW)^T Y ) and ( Y^T XW ) are scalars and equal, this simplifies to: <span class="math display">\[
-(XW - Y)^T (XW - Y) = W^T X^T XW - 2W^T X^T Y + Y^T Y
-\]</span></p>
-<p>Adding ( W^T W ): <span class="math display">\[
-L(W) = W^T X^T XW - 2W^T X^T Y + Y^T Y + W^T W
-\]</span></p>
-<p>Combining like terms: <span class="math display">\[
-L(W) = W^T (X^T X + I) W - 2W^T X^T Y + Y^T Y
-\]</span></p>
-</section>
-<section id="step-2-minimize-the-expression-with-respect-to-w-1" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-minimize-the-expression-with-respect-to-w-1">Step 2: Minimize the Expression with Respect to ( W )</h3>
-<p>Take the derivative of ( L(W) ) with respect to ( W ) and set it to zero: <span class="math display">\[
-\frac{\partial L(W)}{\partial W} = 2(X^T X + I)W - 2X^T Y = 0
-\]</span></p>
-<p>Solving for ( W ): <span class="math display">\[
-(X^T X + I)W = X^T Y
-\]</span> <span class="math display">\[
-W = (X^T X + I)^{-1} X^T Y
-\]</span></p>
-</section>
-<section id="final-answer-1" class="level3">
-<h3 class="anchored" data-anchor-id="final-answer-1">Final Answer</h3>
-<p>The optimal weight matrix ( W ) is: <span class="math display">\[
-\boxed{W = (X^T X + I)^{-1} X^T Y}
-\]</span></p>
-<p>This result includes a regularization term ( W^T W ), which is common in <strong>Ridge Regression</strong> or <strong>Tikhonov Regularization</strong>.</p>
-<div id="cell-18" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, degree <span class="kw">in</span> <span class="bu">enumerate</span>([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">9</span>]):</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">2</span>, <span class="dv">2</span>, i <span class="op">+</span> <span class="dv">1</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    powers <span class="op">=</span> torch.arange(degree).<span class="bu">float</span>()</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    x_poly <span class="op">=</span> x_train.unsqueeze(<span class="op">-</span><span class="dv">1</span>).<span class="bu">pow</span>(powers) <span class="co">## NxM</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    N,M <span class="op">=</span> x_poly.shape</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> (torch.linalg.inv(x_poly.T<span class="op">@</span>x_poly <span class="op">+</span> torch.eye(M))<span class="op">@</span>x_poly.T) <span class="op">@</span> y_train.view(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>) <span class="co">## MxN * Nx1 == Mx1</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    x_poly_test <span class="op">=</span> x_test.unsqueeze(<span class="op">-</span><span class="dv">1</span>).<span class="bu">pow</span>(powers)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> x_poly_test <span class="op">@</span> w    </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    plt.scatter(x_train, y_train, facecolor<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"b"</span>, s<span class="op">=</span><span class="dv">50</span>, label<span class="op">=</span><span class="st">"training data"</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_test, y_test, c<span class="op">=</span><span class="st">"g"</span>, label<span class="op">=</span><span class="st">"$\sin(2\pi x)$"</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_test, y_pred, c<span class="op">=</span><span class="st">"r"</span>, label<span class="op">=</span><span class="st">"fitting"</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    plt.ylim(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    plt.annotate(<span class="st">"M=</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(degree), xy<span class="op">=</span>(<span class="op">-</span><span class="fl">0.15</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="2024-04-16-linear-regression-from-scratch_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
+<p>So it is like when we do mean thresholding it is like threshold = Mean(Image). Where in minimum thresholding, thresholding = Minimum(Image).</p>
+<p>But the techniques like Otsu’s Threshold go beyond the ways of Minimum or mean to find the Threshold.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1027,4 +808,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/bibhabasumohapatra/bibhabasumohapatra.github.io/blob/master/posts/2024-04-16-linear-regression-from-scratch.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bibhabasumohapatra/bibhabasumohapatra.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.dev/bibhabasumohapatra/bibhabasumohapatra.github.io/blob/master/posts/2022-07-03-thresholding-using-scikit-image.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/bibhabasumohapatra/bibhabasumohapatra.github.io/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
