@@ -8,7 +8,7 @@ listing:
   feed: true
 # page-layout: full
 ---
-Hi there 👋 This is my Blog Page - Though I wanted to creat my personal site using Nextjs or React only, but some how I love blogging on quarto . . . now using sayak's already available (which  used for my previous site, got back to blog on quarto)
+Hi there 👋 This is my Blog Page - Though I wanted to create my personal site using Nextjs or React only, but some how I love blogging on quarto . . . now using sayak's already available (which was used for my previous site, got back to blog on quarto)
 my site - [bibhabasu-mohapatra.space](https://bibhabasu-mohapatra.space)
 
 I am Bibhabasu Mohapatra. Currently working as a Data Scientist at Microsoft, previously working as an Engineer(Computer Vision) at Aira Matrix.
