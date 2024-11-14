@@ -1,5 +1,14 @@
 [
   {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/linear-regression-from-scratch.html",
+      "/posts/visualizing-vision-transformers-timm.html",
+      "/posts/understanding-how-ema-works.html",
+      "/posts/deep-supervised-in-segmentation-models-pytorch.html"
+    ]
+  },
+  {
     "listing": "/index.html",
     "items": [
       "/posts/linear-regression-from-scratch.html",
