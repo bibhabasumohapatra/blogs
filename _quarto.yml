@@ -4,30 +4,25 @@ project:
 
 format:
   html:
-    theme:
-      light: flatly
-      dark: darkly
+    theme: default
     css: styles.css
     toc: true
 
 website:
-  title: "Bibhabasu's Blogs"
-  site-url: "https://bibhabasumohapatra.github.io/"
+  title: "Bibhabasu Mohapatra"
+  site-url: "https://bibhabasu-mohapatra.space/"
   description: "Blog page of Bibhabasu Mohapatra."
   favicon: posts/favicon.ico
   search: false
-  twitter-card:
-    creator: "@RisingSayak"
-    card-style: summary
   open-graph: true
   repo-actions: [edit, issue]
   repo-branch: "master"
   repo-url: "https://github.com/bibhabasumohapatra/bibhabasumohapatra.github.io"
   google-analytics: "UA-163448909-1"
   navbar:
-    background: primary
+    background: light
     right:
-      - text: "bAcK 2 h0Me"
+      - text: Home
         href: https://bibhabasu-mohapatra.space
       - icon: twitter
         href: https://x.com/bibhabasuM1610

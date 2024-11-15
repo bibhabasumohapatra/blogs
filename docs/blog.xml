@@ -5,15 +5,15 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>Bibhabasu&#39;s Blogs</title>
-<link>https://bibhabasumohapatra.github.io/blog.html</link>
-<atom:link href="https://bibhabasumohapatra.github.io/blog.xml" rel="self" type="application/rss+xml"/>
+<title>Bibhabasu Mohapatra</title>
+<link>https://bibhabasu-mohapatra.space/blog.html</link>
+<atom:link href="https://bibhabasu-mohapatra.space/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Blog page of Bibhabasu Mohapatra.</description>
 <generator>quarto-1.6.33</generator>
 <lastBuildDate>Mon, 15 Apr 2024 18:30:00 GMT</lastBuildDate>
 <item>
   <title>Polynomial Curve Fitting and doing Linear Regression from Scratch (!! Four ways to Solve a Least Squares Problem)</title>
-  <link>https://bibhabasumohapatra.github.io/posts/linear-regression-from-scratch.html</link>
+  <link>https://bibhabasu-mohapatra.space/posts/linear-regression-from-scratch.html</link>
   <description><![CDATA[ 
 
 
@@ -21,7 +21,7 @@
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
 <figcaption>image.png</figcaption>
 </figure>
 </div>
@@ -100,7 +100,7 @@ font-style: inherit;">as</span> plt</span>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -221,7 +221,7 @@ font-style: inherit;">"$\sin(2\pi x)$"</span>)</span>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -359,7 +359,7 @@ font-style: inherit;">1</span>))</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -534,7 +534,7 @@ font-style: inherit;">1</span>))</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-04-16-linear-regression-from-scratch_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -548,12 +548,12 @@ font-style: inherit;">1</span>))</span></code></pre></div>
   <category>ML foundation</category>
   <category>bayesian</category>
   <category>PyTorch</category>
-  <guid>https://bibhabasumohapatra.github.io/posts/linear-regression-from-scratch.html</guid>
+  <guid>https://bibhabasu-mohapatra.space/posts/linear-regression-from-scratch.html</guid>
   <pubDate>Mon, 15 Apr 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Visualize Salincy Maps in Timm Models (ViT) using PyTorch Hooks!!</title>
-  <link>https://bibhabasumohapatra.github.io/posts/visualizing-vision-transformers-timm.html</link>
+  <link>https://bibhabasu-mohapatra.space/posts/visualizing-vision-transformers-timm.html</link>
   <description><![CDATA[ 
 
 
@@ -691,7 +691,7 @@ font-style: inherit;">=</span> get_image(img_path)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -701,7 +701,7 @@ font-style: inherit;">=</span> get_image(img_path)</span></code></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -979,42 +979,42 @@ font-style: inherit;">0</span>,:,:].detach().cpu().numpy()</span>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-3.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-3.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-4.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-4.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-5.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-5.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-6.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-16-output-6.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1073,7 +1073,7 @@ font-style: inherit;">0</span>,:,:].detach().cpu().numpy()</span>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2024-03-29-visualizing-vision-transformers-timm_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1085,12 +1085,12 @@ font-style: inherit;">0</span>,:,:].detach().cpu().numpy()</span>
   <category>Transformer</category>
   <category>Deep Learning</category>
   <category>PyTorch</category>
-  <guid>https://bibhabasumohapatra.github.io/posts/visualizing-vision-transformers-timm.html</guid>
+  <guid>https://bibhabasu-mohapatra.space/posts/visualizing-vision-transformers-timm.html</guid>
   <pubDate>Thu, 28 Mar 2024 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Understanding how EMA works?</title>
-  <link>https://bibhabasumohapatra.github.io/posts/understanding-how-ema-works.html</link>
+  <link>https://bibhabasu-mohapatra.space/posts/understanding-how-ema-works.html</link>
   <description><![CDATA[ 
 
 
@@ -1108,7 +1108,7 @@ font-style: inherit;">0</span>,:,:].detach().cpu().numpy()</span>
 <p>Initially, there was a misconception that the EMA process directly impacts the ongoing training of model weights. However, this is not the case. In reality, the EMA process involves the creation of a duplicated set of weights. These duplicate weights are updated alongside the primary training process, and the updated weights are subsequently leveraged for validation purposes. As a result, the overall training procedure remains unaffected by the EMA process.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2023-08-14-understanding-how-ema-works_files/figure-html/4c7cd254-1-5d710aa5-97fa-4545-abeb-3f2102a18726.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2023-08-14-understanding-how-ema-works_files/figure-html/4c7cd254-1-5d710aa5-97fa-4545-abeb-3f2102a18726.png" class="img-fluid figure-img"></p>
 <figcaption>image.png</figcaption>
 </figure>
 </div>
@@ -1322,12 +1322,12 @@ font-style: inherit;">-</span>decay))</span></code></pre></div>
  ]]></description>
   <category>deep learning</category>
   <category>PyTorch</category>
-  <guid>https://bibhabasumohapatra.github.io/posts/understanding-how-ema-works.html</guid>
+  <guid>https://bibhabasu-mohapatra.space/posts/understanding-how-ema-works.html</guid>
   <pubDate>Sun, 13 Aug 2023 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Integrating Deep Supervision in Segmentation Models Pytorch (smp)?</title>
-  <link>https://bibhabasumohapatra.github.io/posts/deep-supervised-in-segmentation-models-pytorch.html</link>
+  <link>https://bibhabasu-mohapatra.space/posts/deep-supervised-in-segmentation-models-pytorch.html</link>
   <description><![CDATA[ 
 
 
@@ -1336,7 +1336,7 @@ font-style: inherit;">-</span>decay))</span></code></pre></div>
 <p>In this Notebook - I share my understanding and my Work related to Deep Supervision in Models and Loss Function, I feel Deep Supervision is Sometimes Useful in the cases where the segmentation part bit hard to get detected.</p>
 <ul>
 <li>With my own understanding and thinking I try to implement Deep Supervision.</li>
-<li>As it is conversion of SMP’s Unet Code to Deep Supervision. . . I might have made mistakes, or maybe all of my work is a mess or may be its Evolutionary for Kaggle- Let me know in the comments. <img src="https://bibhabasumohapatra.github.io/posts/2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png" class="img-fluid" alt="image.png"></li>
+<li>As it is conversion of SMP’s Unet Code to Deep Supervision. . . I might have made mistakes, or maybe all of my work is a mess or may be its Evolutionary for Kaggle- Let me know in the comments. <img src="https://bibhabasu-mohapatra.space/posts/2023-03-31-deep-supervised-in-segmentation-models-pytorch_files/figure-html/cell-1-1-860671cf-0b26-4dd9-be23-11b8b217888f.png" class="img-fluid" alt="image.png"></li>
 </ul>
 <p>::: {#cell-2 .cell _cell_guid=‘b1076dfc-b9ad-4769-8c92-a6c4dae69d19’ _uuid=‘8f2839f25d086af736a60e9eeb907d3b93b6e0e5’ execution=‘{“iopub.execute_input”:“2023-03-31T15:18:34.645310Z”,“iopub.status.busy”:“2023-03-31T15:18:34.645013Z”,“iopub.status.idle”:“2023-03-31T15:19:08.473332Z”,“shell.execute_reply”:“2023-03-31T15:19:08.471964Z”,“shell.execute_reply.started”:“2023-03-31T15:18:34.645281Z”}’ trusted=‘true’ execution_count=1}</p>
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="op" style="color: #5E5E5E;
@@ -2357,12 +2357,12 @@ font-style: inherit;">print</span>(loss.item())</span></code></pre></div>
  ]]></description>
   <category>segmentation</category>
   <category>PyTorch</category>
-  <guid>https://bibhabasumohapatra.github.io/posts/deep-supervised-in-segmentation-models-pytorch.html</guid>
+  <guid>https://bibhabasu-mohapatra.space/posts/deep-supervised-in-segmentation-models-pytorch.html</guid>
   <pubDate>Thu, 30 Mar 2023 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Thresholding using scikit image (part of my kaggle submission code)</title>
-  <link>https://bibhabasumohapatra.github.io/posts/thresholding-using-scikit-image.html</link>
+  <link>https://bibhabasu-mohapatra.space/posts/thresholding-using-scikit-image.html</link>
   <description><![CDATA[ 
 
 
@@ -2373,7 +2373,7 @@ font-style: inherit;">print</span>(loss.item())</span></code></pre></div>
 <p>my mask looked like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2022-07-03-thresholding-using-scikit-image_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2022-07-03-thresholding-using-scikit-image_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
 <figcaption>image.png</figcaption>
 </figure>
 </div>
@@ -2413,12 +2413,12 @@ font-style: inherit;">=</span> mask.astype(np.int8)</span></code></pre></div>
  ]]></description>
   <category>Kaggle</category>
   <category>Image Processing</category>
-  <guid>https://bibhabasumohapatra.github.io/posts/thresholding-using-scikit-image.html</guid>
+  <guid>https://bibhabasu-mohapatra.space/posts/thresholding-using-scikit-image.html</guid>
   <pubDate>Sat, 02 Jul 2022 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Start with Transformers for Beginners</title>
-  <link>https://bibhabasumohapatra.github.io/posts/Start-with-Transformers-for-Beginners.html</link>
+  <link>https://bibhabasu-mohapatra.space/posts/Start-with-Transformers-for-Beginners.html</link>
   <description><![CDATA[ 
 
 
@@ -2440,7 +2440,7 @@ font-style: inherit;">=</span> mask.astype(np.int8)</span></code></pre></div>
 <p>We use the representation of the word, that fits the context i.e.&nbsp;the words neighboring the word “flies”, “Time” and “Arrow” tells us that “flies” is Verb. Hence, providing more weight Wij to the embeddings of “Time” and “Arrow” will be a better choice, and embeddings generated this way are called Contextualized Embeddings.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2022-06-04-Start-with-Transformers-for-Beginners_files/figure-html/cell-3-1-image.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2022-06-04-Start-with-Transformers-for-Beginners_files/figure-html/cell-3-1-image.png" class="img-fluid figure-img"></p>
 <figcaption>image.png</figcaption>
 </figure>
 </div>
@@ -2467,12 +2467,12 @@ font-style: inherit;">=</span> mask.astype(np.int8)</span></code></pre></div>
  ]]></description>
   <category>NLP</category>
   <category>Transformer</category>
-  <guid>https://bibhabasumohapatra.github.io/posts/Start-with-Transformers-for-Beginners.html</guid>
+  <guid>https://bibhabasu-mohapatra.space/posts/Start-with-Transformers-for-Beginners.html</guid>
   <pubDate>Fri, 03 Jun 2022 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Language is Not a formal System, Language is glorious Chaos - Chris Manning (cs224n)</title>
-  <link>https://bibhabasumohapatra.github.io/posts/language is-not-a-formal-system-language-is-glorious-chaos.html</link>
+  <link>https://bibhabasu-mohapatra.space/posts/language is-not-a-formal-system-language-is-glorious-chaos.html</link>
   <description><![CDATA[ 
 
 
@@ -2481,7 +2481,7 @@ font-style: inherit;">=</span> mask.astype(np.int8)</span></code></pre></div>
 <p>“Language is Not a formal System, Language is glorious Chaos” — . . . Chris Manning , CS224N ( https://xkcd.com/1576/)</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://bibhabasumohapatra.github.io/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-1-1-image.png" class="img-fluid figure-img"></p>
 <figcaption>image.png</figcaption>
 </figure>
 </div>
@@ -2514,14 +2514,14 @@ font-style: inherit;">=</span> mask.astype(np.int8)</span></code></pre></div>
 </ul>
 <p>(where i and j are unit vectors along the x and y axes)</p>
 <p>We can then ask how much A lies on B. The answer will be the component of A along B. So, what is this component?</p>
-<p><img src="https://bibhabasumohapatra.github.io/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-3-image.png" class="img-fluid" alt="image.png"> <img src="https://bibhabasumohapatra.github.io/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-1-image-2.png" class="img-fluid" alt="image-2.png"> <img src="https://bibhabasumohapatra.github.io/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-2-image-3.png" class="img-fluid" alt="image-3.png"></p>
+<p><img src="https://bibhabasu-mohapatra.space/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-3-image.png" class="img-fluid" alt="image.png"> <img src="https://bibhabasu-mohapatra.space/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-1-image-2.png" class="img-fluid" alt="image-2.png"> <img src="https://bibhabasu-mohapatra.space/posts/2022-02-02-language is-not-a-formal-system-language-is-glorious-chaos_files/figure-html/cell-3-2-image-3.png" class="img-fluid" alt="image-3.png"></p>
 
 
 </section>
 
  ]]></description>
   <category>NLP</category>
-  <guid>https://bibhabasumohapatra.github.io/posts/language is-not-a-formal-system-language-is-glorious-chaos.html</guid>
+  <guid>https://bibhabasu-mohapatra.space/posts/language is-not-a-formal-system-language-is-glorious-chaos.html</guid>
   <pubDate>Tue, 01 Feb 2022 18:30:00 GMT</pubDate>
 </item>
 </channel>
